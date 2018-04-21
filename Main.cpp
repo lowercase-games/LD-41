@@ -39,21 +39,45 @@ SDL_Texture* load_image(std::string s)
     return loaded_textures[s];
 }
 
+int sign(int x)
+{
+    return (x>0?1:(x<0?-1:0));
+}
+
 class Object;
-std::deque<Object*> objects;
+std::deque<Object*> objects, wallables;
 class Object
 {
-public:
-    int pos[2], size[2];
+    SDL_Rect* current_hitbox;
+
+protected:
+    int pos[2], last_pos[2], size[2];
+    SDL_Rect hitbox;
     SDL_Texture* tex;
 
-    Object(int x, int y, std::string s)
+public:
+    Object(int x, int y, std::string s="", int hitx=0, int hity=0, int hitw=-1, int hith=-1)
     {
-        pos[0] = x;
-        pos[1] = y;
+        pos[0] = last_pos[0] = x;
+        pos[1] = last_pos[1] = y;
 
-        tex = load_image(s);
-        SDL_QueryTexture(tex, nullptr, nullptr, &size[0], &size[1]);
+        if (s.empty())
+        {
+            tex = nullptr;
+            size[0] = size[1] = 0;
+        }
+        else
+        {
+            tex = load_image(s);
+            SDL_QueryTexture(tex, nullptr, nullptr, &size[0], &size[1]);
+        }
+
+        if (hitw==-1) hitw = size[0];
+        if (hith==-1) hith = size[1];
+
+        hitbox = {hitx,hity,hitw,hith};
+        current_hitbox = new SDL_Rect(hitbox);
+        cur_hitbox();
 
         objects.push_back(this);
     }
@@ -61,6 +85,39 @@ public:
     virtual ~Object()
     {
         remove_it(&objects, this);
+        delete current_hitbox;
+    }
+
+    SDL_Rect* cur_hitbox()
+    {
+        current_hitbox->x = hitbox.x+pos[0];
+        current_hitbox->y = hitbox.y+pos[1];
+        return current_hitbox;
+    }
+
+    void move(int x, int y, bool relative=true, bool set_last_pos=true)
+    {
+        if (set_last_pos)
+        {
+            last_pos[0] = pos[0];
+            last_pos[1] = pos[1];
+        }
+
+        if (relative)
+        {
+            pos[0] += x;
+            pos[1] += y;
+        }
+        else
+        {
+            pos[0] = x;
+            pos[1] = y;
+        }
+    }
+
+    virtual void move_back()
+    {
+        move(sign(last_pos[0]-pos[0]),sign(last_pos[1]-pos[1]), true, false);
     }
 
     virtual void update()
@@ -76,11 +133,6 @@ public:
     }
 };
 
-int sign(int x)
-{
-    return (x>0?1:(x<0?-1:0));
-}
-
 class Player: public Object
 {
 public:
@@ -91,6 +143,15 @@ public:
         accurate_pos[0] = pos[0];
         accurate_pos[1] = pos[1];
 
+        speed[0] = speed[1] = 0;
+        wallables.push_back(this);
+    }
+
+    void move_back()
+    {
+        Object::move_back();
+        accurate_pos[0] = pos[0];
+        accurate_pos[1] = pos[1];
         speed[0] = speed[1] = 0;
     }
 
@@ -110,13 +171,41 @@ public:
                 speed[i] += acc[i]*acceleration;
                 speed[i] -= speed[i]*lin_stop+sign(speed[i])*const_stop;
                 accurate_pos[i] += speed[i];
-                pos[i] = (int) accurate_pos[i];
             }
+
+            move(accurate_pos[0], accurate_pos[1], false);
         }
         else
         {
             speed[0] = speed[1] = 0;
         }
+    }
+};
+
+class Wall: public Object
+{
+public:
+    Wall(int x, int y, int sx, int sy) : Object(x,y,"",0,0,sx,sy)
+    {
+        size[0] = sx;
+        size[1] = sy;
+    }
+
+    void update()
+    {
+        for (Object* o: wallables)
+        {
+            while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE)
+                o->move_back();
+        }
+    }
+
+    void render()
+    {
+        SDL_SetRenderDrawColor(renderer,0,0,0,255);
+        SDL_Rect r={pos[0], pos[1], size[0], size[1]};
+
+        SDL_RenderFillRect(renderer, &r);
     }
 };
 
@@ -128,6 +217,7 @@ int main(int argc, char* args[])
     renderer = SDL_CreateRenderer(renderwindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     new Player();
+    new Wall(50,50,100,50);
 
     //SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
     SDL_Event e;
@@ -143,11 +233,8 @@ int main(int argc, char* args[])
         SDL_SetRenderDrawColor(renderer,255,255,255,255);
         SDL_RenderClear(renderer);
 
-        for (Object* o: objects)
-        {
-            o->update();
-            o->render();
-        }
+        for (Object* o: objects) o->update();
+        for (Object* o: objects) o->render();
 
         SDL_RenderPresent(renderer);
         limit_fps();
