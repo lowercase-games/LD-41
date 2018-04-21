@@ -145,6 +145,7 @@ int main(int argc, char* args[])
 			    else if (e.key.keysym.sym == SDLK_e) dialog("TEST! Test. test? abc123 kasdl kasnd aso dnas idwpo dasdpwodp adi","");
 			    else if (e.key.keysym.sym == SDLK_l) player->dash();
 			    else if (e.key.keysym.sym == SDLK_j) player->claw_attack();
+			    else if (e.key.keysym.sym == SDLK_k) player->sting_attack();
 			}
         }
 
@@ -152,6 +153,9 @@ int main(int argc, char* args[])
         SDL_RenderClear(renderer);
 
         for (Object* o: objects) o->update();
+
+        for (Object* o: to_delete) delete o;
+        to_delete.clear();
 
         for (Object* o: objects) o->render();
         render_ui(player);

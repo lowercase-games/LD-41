@@ -2,7 +2,7 @@
 
 #include "Rendering.h"
 
-std::deque<Object*> objects, wallables;
+std::deque<Object*> objects, wallables, enemies, to_delete;
 
 int sign(int x)
 {
@@ -11,6 +11,8 @@ int sign(int x)
 
 Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hith, int animation_frames)
 {
+    hp = 5;
+
     pos[0] = last_pos[0] = x;
     pos[1] = last_pos[1] = y;
 
@@ -47,10 +49,20 @@ Object::~Object()
     delete current_hitbox;
 }
 
+void Object::attack()
+{
+    hp--;
+    if (hp <= 0) to_delete.push_back(this);
+}
+
 void Object::change_animation(std::string s)
 {
     tex = load_image(s);
     cur_anim_time = cur_anim_frame = 0;
+
+    int sy;
+    SDL_QueryTexture(tex, nullptr, nullptr, nullptr, &sy);
+    anim_frames = sy/size[1];
 }
 
 void Object::animate(int frame_time)
@@ -65,8 +77,20 @@ void Object::animate(int frame_time)
 
 SDL_Rect* Object::cur_hitbox()
 {
-    current_hitbox->x = hitbox.x+pos[0];
-    current_hitbox->y = hitbox.y+pos[1];
+    if (flipped)
+    {
+        current_hitbox->x = -hitbox.x-hitbox.w+pos[0]+size[0];
+        current_hitbox->y = hitbox.y+pos[1];
+    }
+    else
+    {
+        current_hitbox->x = hitbox.x+pos[0];
+        current_hitbox->y = hitbox.y+pos[1];
+    }
+
+    current_hitbox->w = hitbox.w;
+    current_hitbox->h = hitbox.h;
+
     return current_hitbox;
 }
 
