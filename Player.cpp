@@ -33,6 +33,13 @@ void Player::update()
     if (keystate[SDL_SCANCODE_A]) acc[0] = -1;
     else if (keystate[SDL_SCANCODE_D]) acc[0] = 1;
 
+    if (animation == attack)
+    {
+        animate(5);
+        if (!cur_anim_frame && !cur_anim_time)
+            animation = tbd;
+    }
+
     if (acc[0] || acc[1])
     {
         for (int i=0;i<=1;i++)
@@ -44,27 +51,36 @@ void Player::update()
 
         move(accurate_pos[0], accurate_pos[1], false);
 
-        if (animation != walk)
+        if (animation != attack)
         {
-            animation = walk;
-            change_animation("manticore_move");
-        }
+            if (animation != walk)
+            {
+                animation = walk;
+                change_animation("manticore_move");
+            }
 
-        if (int total_speed=(abs(speed[0])+abs(speed[1]))) animate(25/total_speed);
+            if (int total_speed=(abs(speed[0])+abs(speed[1]))) animate(25/total_speed);
+
+            if (speed[0]) flipped = speed[0] > 0;
+        }
     }
     else
     {
         speed[0] = speed[1] = 0;
 
-        if (animation != idle)
+        if (animation != attack)
         {
-            animation = idle;
-            change_animation("manticore_idle");
+            if (animation != idle)
+            {
+                animation = idle;
+                change_animation("manticore_idle");
+            }
+            animate(20);
         }
-        animate(20);
     }
 
     if (dash_cooldown) dash_cooldown--;
+    if (claw_cooldown) claw_cooldown--;
 }
 
 void Player::dash()
@@ -79,5 +95,15 @@ void Player::dash()
         else if (keystate[SDL_SCANCODE_D]) speed[0] += dash_speed;
 
         dash_cooldown=max_dash_cooldown;
+    }
+}
+
+void Player::claw_attack()
+{
+    if (claw_cooldown<=0)
+    {
+        claw_cooldown=max_claw_cooldown;
+        animation = attack;
+        change_animation("manticore_attack");
     }
 }

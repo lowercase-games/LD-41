@@ -14,6 +14,8 @@ Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hi
     pos[0] = last_pos[0] = x;
     pos[1] = last_pos[1] = y;
 
+    flipped = false;
+
     anim_frames = animation_frames;
     cur_anim_frame = cur_anim_time = 0;
 
@@ -48,6 +50,7 @@ Object::~Object()
 void Object::change_animation(std::string s)
 {
     tex = load_image(s);
+    cur_anim_time = cur_anim_frame = 0;
 }
 
 void Object::animate(int frame_time)
@@ -96,5 +99,5 @@ void Object::render()
 {
     SDL_Rect dest={pos[0], pos[1], size[0], size[1]}, src = {0, size[1]*cur_anim_frame, size[0], size[1]};
 
-    SDL_RenderCopy(renderer, tex, &src, &dest);
+    SDL_RenderCopyEx(renderer, tex, &src, &dest, 0, nullptr, flipped?SDL_FLIP_HORIZONTAL:SDL_FLIP_NONE);
 }

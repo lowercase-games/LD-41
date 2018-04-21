@@ -22,6 +22,7 @@ class Object
 
 protected:
     int pos[2], last_pos[2], size[2], anim_frames, cur_anim_time, cur_anim_frame;
+    bool flipped;
     SDL_Rect hitbox;
     SDL_Texture* tex;
 

@@ -34,5 +34,6 @@ void draw_pie(int x, int cur, int max, std::string key)
 
 void render_ui(Player* player)
 {
+    draw_pie(window[0]-160,player->claw_cooldown,player->max_claw_cooldown,"J");
     draw_pie(window[0]-40,player->dash_cooldown,player->max_dash_cooldown,"L");
 }
