@@ -11,6 +11,7 @@ void *__gxx_personality_v0;
 #endif
 
 const int window[2] = {500,500};
+const float lin_stop = 0.1, const_stop = 0.5, acceleration = 1.5;
 
 bool breakk = false;
 SDL_Window* renderwindow;
@@ -75,12 +76,58 @@ public:
     }
 };
 
+int sign(int x)
+{
+    return (x>0?1:(x<0?-1:0));
+}
+
+class Player: public Object
+{
+public:
+    float accurate_pos[2], speed[2];
+
+    Player():Object(0,0,"Player")
+    {
+        accurate_pos[0] = pos[0];
+        accurate_pos[1] = pos[1];
+
+        speed[0] = speed[1] = 0;
+    }
+
+    void update()
+    {
+        auto keystate = SDL_GetKeyboardState(nullptr);
+        int acc[2] = {0,0};
+        if (keystate[SDL_SCANCODE_W]) acc[1] = -1;
+        else if (keystate[SDL_SCANCODE_S]) acc[1] = 1;
+        if (keystate[SDL_SCANCODE_A]) acc[0] = -1;
+        else if (keystate[SDL_SCANCODE_D]) acc[0] = 1;
+
+        if (acc[0] || acc[1])
+        {
+            for (int i=0;i<=1;i++)
+            {
+                speed[i] += acc[i]*acceleration;
+                speed[i] -= speed[i]*lin_stop+sign(speed[i])*const_stop;
+                accurate_pos[i] += speed[i];
+                pos[i] = (int) accurate_pos[i];
+            }
+        }
+        else
+        {
+            speed[0] = speed[1] = 0;
+        }
+    }
+};
+
 int main(int argc, char* args[])
 {
     IMG_Init(IMG_INIT_PNG);
 
     renderwindow = SDL_CreateWindow("...", 50, 50, window[0], window[1], SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(renderwindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+    new Player();
 
     //SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
     SDL_Event e;
