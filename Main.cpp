@@ -128,8 +128,8 @@ int main(int argc, char* args[])
     render_init();
     font_init();
 
-    new Player();
-    new Wall(50,50,100,50);
+    Player* player = new Player();
+    new Wall(80,50,100,50);
 
     //SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
     SDL_Event e;
@@ -139,15 +139,21 @@ int main(int argc, char* args[])
         {
 			if (e.type == SDL_QUIT) breakk = true;
 
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) menu();
-			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_e) dialog("TEST! Test. test? abc123 kasdl kasnd aso dnas idwpo dasdpwodp adi","");
+			else if (e.type == SDL_KEYDOWN)
+			{
+			    if (e.key.keysym.sym == SDLK_ESCAPE) menu();
+			    else if (e.key.keysym.sym == SDLK_e) dialog("TEST! Test. test? abc123 kasdl kasnd aso dnas idwpo dasdpwodp adi","");
+			    else if (e.key.keysym.sym == SDLK_l) player->dash();
+			}
         }
 
         SDL_SetRenderDrawColor(renderer,255,255,255,255);
         SDL_RenderClear(renderer);
 
         for (Object* o: objects) o->update();
+
         for (Object* o: objects) o->render();
+        render_ui(player);
 
         SDL_RenderPresent(renderer);
         limit_fps();

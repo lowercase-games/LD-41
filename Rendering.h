@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <string>
+#include "Player.h"
 
 #if defined(WIN32) || defined(_WIN32)
 #define PATH_SEPARATOR "\\"
@@ -16,5 +17,6 @@ extern const int window[2];
 
 void render_init();
 SDL_Texture* load_image(std::string s);
+void render_ui(Player* player);
 
 #endif // _RENDERING

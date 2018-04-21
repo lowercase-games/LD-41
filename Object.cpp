@@ -9,10 +9,13 @@ int sign(int x)
     return (x>0?1:(x<0?-1:0));
 }
 
-Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hith)
+Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hith, int animation_frames)
 {
     pos[0] = last_pos[0] = x;
     pos[1] = last_pos[1] = y;
+
+    anim_frames = animation_frames;
+    cur_anim_frame = cur_anim_time = 0;
 
     if (s.empty())
     {
@@ -23,6 +26,7 @@ Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hi
     {
         tex = load_image(s);
         SDL_QueryTexture(tex, nullptr, nullptr, &size[0], &size[1]);
+        size[1] /= anim_frames;
     }
 
     if (hitw==-1) hitw = size[0];
@@ -39,6 +43,21 @@ Object::~Object()
 {
     remove_it(&objects, this);
     delete current_hitbox;
+}
+
+void Object::change_animation(std::string s)
+{
+    tex = load_image(s);
+}
+
+void Object::animate(int frame_time)
+{
+    cur_anim_time++;
+    if (cur_anim_time >= frame_time)
+    {
+        cur_anim_time = 0;
+        cur_anim_frame = (cur_anim_frame+1)%anim_frames;
+    }
 }
 
 SDL_Rect* Object::cur_hitbox()
@@ -75,7 +94,7 @@ void Object::move_back()
 
 void Object::render()
 {
-    SDL_Rect r={pos[0], pos[1], size[0], size[1]};
+    SDL_Rect dest={pos[0], pos[1], size[0], size[1]}, src = {0, size[1]*cur_anim_frame, size[0], size[1]};
 
-    SDL_RenderCopy(renderer, tex, nullptr, &r);
+    SDL_RenderCopy(renderer, tex, &src, &dest);
 }

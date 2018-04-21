@@ -1,14 +1,19 @@
 #include "Player.h"
 
 const float lin_stop = 0.1, const_stop = 0.5, acceleration = 1.5;
+const int dash_speed = 20;
 
-Player::Player():Object(0,0,"Player")
+Player::Player():Object(0,0,"manticore_idle",0,0,-1,-1,4)
 {
     accurate_pos[0] = pos[0];
     accurate_pos[1] = pos[1];
 
+    dash_cooldown = 0;
+
     speed[0] = speed[1] = 0;
     wallables.push_back(this);
+
+    animation = idle;
 }
 
 void Player::move_back()
@@ -38,9 +43,41 @@ void Player::update()
         }
 
         move(accurate_pos[0], accurate_pos[1], false);
+
+        if (animation != walk)
+        {
+            animation = walk;
+            change_animation("manticore_move");
+        }
+
+        if (int total_speed=(abs(speed[0])+abs(speed[1]))) animate(25/total_speed);
     }
     else
     {
         speed[0] = speed[1] = 0;
+
+        if (animation != idle)
+        {
+            animation = idle;
+            change_animation("manticore_idle");
+        }
+        animate(20);
+    }
+
+    if (dash_cooldown) dash_cooldown--;
+}
+
+void Player::dash()
+{
+    if (dash_cooldown<=0)
+    {
+        auto keystate = SDL_GetKeyboardState(nullptr);
+
+        if (keystate[SDL_SCANCODE_W]) speed[1] -= dash_speed;
+        else if (keystate[SDL_SCANCODE_S]) speed[1] += dash_speed;
+        if (keystate[SDL_SCANCODE_A]) speed[0] -= dash_speed;
+        else if (keystate[SDL_SCANCODE_D]) speed[0] += dash_speed;
+
+        dash_cooldown=max_dash_cooldown;
     }
 }
