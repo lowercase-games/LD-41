@@ -12,12 +12,13 @@
 #include "Player.h"
 #include "Wall.h"
 #include "Font.h"
+#include "Enemy.h"
 
 #ifndef _STATIC
 void *__gxx_personality_v0;
 #endif
 
-const int window[2] = {500,500};
+const int window[2] = {640,360}, scale=2;
 
 bool breakk = false;
 
@@ -130,6 +131,7 @@ int main(int argc, char* args[])
 
     Player* player = new Player();
     new Wall(80,50,100,50);
+    new Enemy(100,100,player);
 
     //SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
     SDL_Event e;

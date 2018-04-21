@@ -12,6 +12,7 @@ int sign(int x)
 Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hith, int animation_frames)
 {
     hp = 5;
+    rotation = 0;
 
     pos[0] = last_pos[0] = x;
     pos[1] = last_pos[1] = y;
@@ -123,5 +124,5 @@ void Object::render()
 {
     SDL_Rect dest={pos[0], pos[1], size[0], size[1]}, src = {0, size[1]*cur_anim_frame, size[0], size[1]};
 
-    SDL_RenderCopyEx(renderer, tex, &src, &dest, 0, nullptr, flipped?SDL_FLIP_HORIZONTAL:SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, tex, &src, &dest, rotation, nullptr, flipped?SDL_FLIP_HORIZONTAL:SDL_FLIP_NONE);
 }

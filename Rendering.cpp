@@ -13,8 +13,10 @@ void render_init()
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
 
-    renderwindow = SDL_CreateWindow("LD-41", 50, 50, window[0], window[1], SDL_WINDOW_SHOWN);
-    renderer = SDL_CreateRenderer(renderwindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    renderwindow = SDL_CreateWindow("LD-41", 50, 50, window[0]*scale, window[1]*scale, SDL_WINDOW_SHOWN);
+    renderer = SDL_CreateRenderer(renderwindow, -1, SDL_RENDERER_ACCELERATED);
+
+    SDL_RenderSetScale(renderer,scale,scale);
 }
 
 std::map<std::string,SDL_Texture*> loaded_textures;

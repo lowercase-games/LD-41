@@ -8,7 +8,7 @@ Player::Player():Object(0,0,"manticore_idle",0,0,-1,-1,4)
     accurate_pos[0] = pos[0];
     accurate_pos[1] = pos[1];
 
-    dash_cooldown = 0;
+    dash_cooldown = claw_cooldown = sting_cooldown = 0;
 
     speed[0] = speed[1] = 0;
     wallables.push_back(this);

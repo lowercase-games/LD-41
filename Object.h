@@ -21,13 +21,13 @@ class Object
     SDL_Rect* current_hitbox;
 
 protected:
-    int pos[2], last_pos[2], size[2], anim_frames, cur_anim_time, cur_anim_frame;
-    bool flipped;
+    int last_pos[2], size[2], anim_frames, cur_anim_time, cur_anim_frame, rotation;
     SDL_Rect hitbox;
     SDL_Texture* tex;
 
 public:
-    int hp;
+    int hp, pos[2];
+    bool flipped;
 
     Object(int x, int y, std::string s="", int hitx=0, int hity=0, int hitw=-1, int hith=-1, int animation_frames=1);
     virtual ~Object();
