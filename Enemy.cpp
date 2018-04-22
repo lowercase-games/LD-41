@@ -1,6 +1,7 @@
 #include "Enemy.h"
 
 #include "Weapon.h"
+#include "Rendering.h"
 
 Enemy::Enemy(int x, int y, Object* focus) : Object(x,y,"cult_walk_1",16,3,30,54,4)
 {
@@ -40,4 +41,17 @@ void Enemy::update()
             weapon->start_attack();
         }
     }
+}
+
+void Enemy::render()
+{
+    Object::render();
+
+    SDL_SetRenderDrawColor(renderer,255,0,0,255);
+    SDL_Rect r = {pos[0]+size[0]/4,pos[1]-10,size[0]/2*hp/max_hp,5};
+    SDL_RenderFillRect(renderer,&r);
+
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
+    r.w = size[0]/2;
+    SDL_RenderDrawRect(renderer,&r);
 }

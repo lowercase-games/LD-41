@@ -17,6 +17,7 @@ public:
     ~Enemy();
 
     void update();
+    void render();
 };
 
 #endif // _ENEMY

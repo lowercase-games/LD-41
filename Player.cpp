@@ -186,6 +186,7 @@ void Player::dash()
         else if (!moved_y) return;
 
         dash_cooldown=max_dash_cooldown;
+        iframes = 10;
     }
 }
 

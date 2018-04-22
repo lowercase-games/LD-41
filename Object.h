@@ -21,7 +21,7 @@ class Object
     SDL_Rect* current_hitbox;
 
 public:
-    int hp, pos[2], last_pos[2], size[2], anim_frames, cur_anim_time, cur_anim_frame, rotation, iframes;
+    int hp, max_hp, pos[2], last_pos[2], size[2], anim_frames, cur_anim_time, cur_anim_frame, rotation, iframes;
     bool is_player;
     SDL_Rect hitbox;
     SDL_Texture* tex;

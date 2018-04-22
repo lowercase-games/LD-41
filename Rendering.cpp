@@ -71,7 +71,7 @@ void render_ui(Player* player)
     draw_pie(window[0]-40,player->dash_cooldown,player->max_dash_cooldown,"L","dash");
 
     SDL_SetRenderDrawColor(renderer,255,0,0,255);
-    SDL_Rect r = {5,5,50*player->hp / 5,10};
+    SDL_Rect r = {5,5,50*player->hp / player->max_hp,10};
     SDL_RenderFillRect(renderer,&r);
 
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
