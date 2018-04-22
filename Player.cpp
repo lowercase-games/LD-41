@@ -191,7 +191,7 @@ void Player::dash()
 
 void Player::sting_attack()
 {
-    if (claw_cooldown<=0 && !in_attack_animation())
+    if (sting_cooldown<=0 && !in_attack_animation())
     {
         auto keystate = SDL_GetKeyboardState(nullptr);
 
