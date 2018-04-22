@@ -13,6 +13,7 @@
 #include "Wall.h"
 #include "Font.h"
 #include "Enemy.h"
+#include "Weapon.h"
 
 #ifndef _STATIC
 void *__gxx_personality_v0;
@@ -124,14 +125,19 @@ void dialog(std::string text, std::string image="placeholder")
     }
 }
 
+bool by_y(Object* a, Object* b)
+{
+    return a->pos[1] < b->pos[1];
+}
+
 int main(int argc, char* args[])
 {
     render_init();
     font_init();
 
     Player* player = new Player();
+    Enemy* ene= new Enemy(100,100,player);
     new Wall(80,50,100,50);
-    new Enemy(100,100,player);
 
     //SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
     SDL_Event e;
@@ -145,6 +151,7 @@ int main(int argc, char* args[])
 			{
 			    if (e.key.keysym.sym == SDLK_ESCAPE) menu();
 			    else if (e.key.keysym.sym == SDLK_e) dialog("TEST! Test. test? abc123 kasdl kasnd aso dnas idwpo dasdpwodp adi","");
+			    else if (e.key.keysym.sym == SDLK_r) ene->weapon->start_attack();
 			    else if (e.key.keysym.sym == SDLK_l) player->dash();
 			    else if (e.key.keysym.sym == SDLK_j) player->claw_attack();
 			    else if (e.key.keysym.sym == SDLK_k) player->sting_attack();
@@ -154,12 +161,13 @@ int main(int argc, char* args[])
         SDL_SetRenderDrawColor(renderer,255,255,255,255);
         SDL_RenderClear(renderer);
 
-        for (Object* o: objects) o->update();
+        for (Object* o: objects_update) o->update();
 
         for (Object* o: to_delete) delete o;
         to_delete.clear();
 
-        for (Object* o: objects) o->render();
+        std::stable_sort(objects_render.begin(), objects_render.end(), by_y);
+        for (Object* o: objects_render) o->render();
         render_ui(player);
 
         SDL_RenderPresent(renderer);

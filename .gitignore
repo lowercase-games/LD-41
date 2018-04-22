@@ -34,3 +34,7 @@
 #Code::Blocks files
 *.cbp
 *.depend
+*.layout
+
+#Archive
+*.zip

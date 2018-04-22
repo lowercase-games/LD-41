@@ -10,17 +10,21 @@ Enemy::Enemy(int x, int y, Object* focus) : Object(x,y,"cult_walk_1",0,0,-1,-1,4
     wallables.push_back(this);
     enemies.push_back(this);
 
-    new Weapon(this);
+    weapon = new Weapon(this);
 }
 
 Enemy::~Enemy()
 {
     remove_it(&wallables, (Object*) this);
     remove_it(&enemies, (Object*) this);
+
+    delete weapon;
 }
 
 void Enemy::update()
 {
+    if (iframes) iframes--;
+
     if (--time_till_move <= 0)
     {
         time_till_move = 2;

@@ -3,7 +3,7 @@
 const float lin_stop = 0.1, const_stop = 0.5, acceleration = 1.5;
 const int dash_speed = 20;
 
-Player::Player():Object(0,0,"manticore_idle",0,0,-1,-1,4)
+Player::Player():Object(0,0,"manticore_idle",2,44,51,19,4)
 {
     accurate_pos[0] = pos[0];
     accurate_pos[1] = pos[1];
@@ -15,6 +15,11 @@ Player::Player():Object(0,0,"manticore_idle",0,0,-1,-1,4)
 
     animation = idle;
     facing_up=false;
+
+    using_walk_hitbox=true;
+    other_hitbox = {2,26,51,25};
+
+    is_player = true;
 }
 
 Player::~Player()
@@ -32,11 +37,20 @@ void Player::move_back()
     Object::move_back();
     accurate_pos[0] = pos[0];
     accurate_pos[1] = pos[1];
-    speed[0] = speed[1] = 0;
+    //speed[0] = speed[1] = 0;
+}
+
+void Player::move(int x, int y, bool relative, bool set_last_pos)
+{
+    Object::move(x,y,relative,set_last_pos);
+    accurate_pos[0] = pos[0];
+    accurate_pos[1] = pos[1];
 }
 
 void Player::update()
 {
+    if (iframes) iframes--;
+
     auto keystate = SDL_GetKeyboardState(nullptr);
     int acc[2] = {0,0};
     if (keystate[SDL_SCANCODE_W]) acc[1] = -1;
@@ -109,21 +123,23 @@ void Player::update()
             accurate_pos[i] += speed[i];
         }
 
-        move(accurate_pos[0], accurate_pos[1], false);
-
         if (!in_attack_animation())
         {
+            int real_speed[2] = {pos[0]-last_pos[0],pos[1]-last_pos[1]};
+
             if (animation != walk)
             {
                 animation = walk;
                 change_animation("manticore_move");
             }
 
-            if (int total_speed=(abs(speed[0])+abs(speed[1]))) animate(25/total_speed);
+            if (int total_speed=(abs(real_speed[0])+abs(real_speed[1]))) animate(25/total_speed);
 
-            if (speed[0]) flipped = speed[0] > 0;
-            if (speed[1]) facing_up = speed[1] < 0;
+            if (real_speed[0]) flipped = real_speed[0] > 0;
+            if (real_speed[1]) facing_up = real_speed[1] < 0;
         }
+
+        move(accurate_pos[0], accurate_pos[1], false);
     }
     else
     {
@@ -145,16 +161,29 @@ void Player::update()
     if (sting_cooldown) sting_cooldown--;
 }
 
+void Player::switch_hitbox()
+{
+    SDL_Rect temp = hitbox;
+    hitbox = other_hitbox;
+    other_hitbox = temp;
+    using_walk_hitbox = !using_walk_hitbox;
+}
+
 void Player::dash()
 {
     if (dash_cooldown<=0)
     {
         auto keystate = SDL_GetKeyboardState(nullptr);
 
+        bool moved_y=true;
+
         if (keystate[SDL_SCANCODE_W]) speed[1] -= dash_speed;
         else if (keystate[SDL_SCANCODE_S]) speed[1] += dash_speed;
+        else moved_y=false;
+
         if (keystate[SDL_SCANCODE_A]) speed[0] -= dash_speed;
         else if (keystate[SDL_SCANCODE_D]) speed[0] += dash_speed;
+        else if (!moved_y) return;
 
         dash_cooldown=max_dash_cooldown;
     }

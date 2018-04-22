@@ -1,4 +1,6 @@
 #include "Wall.h"
+
+#include <iostream>
 #include "Rendering.h"
 
 Wall::Wall(int x, int y, int sx, int sy) : Object(x,y,"",0,0,sx,sy)
@@ -11,8 +13,17 @@ void Wall::update()
 {
     for (Object* o: wallables)
     {
-        while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE)
-            o->move_back();
+        if (o->is_player && !(static_cast<Player*>(o)->using_walk_hitbox)) static_cast<Player*>(o)->switch_hitbox();
+
+        if (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE)
+        {
+            int px = o->pos[0], py = o->pos[1];
+            while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE)
+                o->move_back();
+
+            if      (o->pos[0]-pos[0] == -o->size[0] || o->pos[0]-pos[0] == size[0]) o->move(o->pos[0],py,false);
+            else if (o->pos[1]-pos[1] == -o->size[1] || o->pos[1]-pos[1] == size[1]) o->move(px,o->pos[1],false);
+        }
     }
 }
 

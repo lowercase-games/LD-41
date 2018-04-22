@@ -2,7 +2,7 @@
 
 #include "Rendering.h"
 
-std::deque<Object*> objects, wallables, enemies, to_delete;
+std::deque<Object*> objects_update, objects_render, wallables, enemies, to_delete;
 
 int sign(int x)
 {
@@ -13,6 +13,7 @@ Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hi
 {
     hp = 5;
     rotation = 0;
+    iframes = 0;
 
     pos[0] = last_pos[0] = x;
     pos[1] = last_pos[1] = y;
@@ -41,19 +42,26 @@ Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hi
     current_hitbox = new SDL_Rect(hitbox);
     cur_hitbox();
 
-    objects.push_back(this);
+    objects_render.push_back(this);
+    objects_update.push_back(this);
+
+    is_player = false;
 }
 
 Object::~Object()
 {
-    remove_it(&objects, this);
+    remove_it(&objects_render, this);
+    remove_it(&objects_update, this);
     delete current_hitbox;
 }
 
 void Object::attack()
 {
-    hp--;
-    if (hp <= 0) to_delete.push_back(this);
+    if (!iframes)
+    {
+        if (--hp <= 0) to_delete.push_back(this);
+        else iframes = 16;
+    }
 }
 
 void Object::change_animation(std::string s)
@@ -124,5 +132,5 @@ void Object::render()
 {
     SDL_Rect dest={pos[0], pos[1], size[0], size[1]}, src = {0, size[1]*cur_anim_frame, size[0], size[1]};
 
-    SDL_RenderCopyEx(renderer, tex, &src, &dest, rotation, nullptr, flipped?SDL_FLIP_HORIZONTAL:SDL_FLIP_NONE);
+    SDL_RenderCopyEx(renderer, iframes?white_texture(tex):tex, &src, &dest, rotation, nullptr, flipped?SDL_FLIP_HORIZONTAL:SDL_FLIP_NONE);
 }
