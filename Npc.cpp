@@ -1,4 +1,4 @@
-#include "NPC.h"
+#include "Npc.h"
 
 #include "Dialog.h"
 

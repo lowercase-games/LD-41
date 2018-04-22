@@ -1,4 +1,4 @@
-#include "dialog.h"
+#include "Dialog.h"
 
 #include <fstream>
 #include <random>

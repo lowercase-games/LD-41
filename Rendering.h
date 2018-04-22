@@ -17,6 +17,8 @@ extern const int window[2], scale;
 extern bool breakk;
 extern int camera[2];
 
+extern bool fullscreen, vsync;
+
 void limit_fps();
 
 void render_init();

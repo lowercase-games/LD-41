@@ -8,6 +8,8 @@
 SDL_Window* renderwindow;
 SDL_Renderer* renderer;
 
+bool fullscreen=false, vsync=false;
+
 int last_time;
 float wait;
 void limit_fps()
@@ -22,10 +24,15 @@ void render_init()
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
 
-    renderwindow = SDL_CreateWindow("LD-41", 50, 50, window[0]*scale, window[1]*scale, SDL_WINDOW_SHOWN);
-    renderer = SDL_CreateRenderer(renderwindow, -1, SDL_RENDERER_ACCELERATED);
+    SDL_DisplayMode current;
+    SDL_GetDesktopDisplayMode(0, &current);
+
+    renderwindow = SDL_CreateWindow("LD 41", 50, 50, fullscreen?current.w:window[0]*scale, fullscreen?current.h:window[1]*scale,
+                                    SDL_WINDOW_SHOWN | (fullscreen?SDL_WINDOW_FULLSCREEN_DESKTOP:0));
+    renderer = SDL_CreateRenderer(renderwindow, -1, SDL_RENDERER_ACCELERATED | (vsync?SDL_RENDERER_PRESENTVSYNC:0));
 
     SDL_RenderSetScale(renderer,scale,scale);
+    //SDL_RenderSetLogicalSize(renderer, window[0], window[1]);
 }
 
 std::map<std::string,SDL_Texture*> loaded_textures;

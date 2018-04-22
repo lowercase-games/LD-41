@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include "Object.h"
 #include "Rendering.h"
@@ -45,8 +46,32 @@ bool by_y(Object* a, Object* b)
     return a->pos[1] < b->pos[1];
 }
 
+void load_options()
+{
+    std::fstream file;
+    file.open("options.txt");
+
+    while (!file.eof())
+    {
+        std::string line;
+        std::getline(file,line);
+
+        auto splitted = split(line,'=');
+
+        if (splitted[0] == "fullscreen") fullscreen = std::stoi(splitted[1]);
+        else if (splitted[0] == "vsync") vsync = std::stoi(splitted[1]);
+        //else if (splitted[0] == "screen_shake") screen_shake_enabled = std::stoi(splitted[1]);
+        //else if (splitted[0] == "hard_mode") hardmode = std::stoi(splitted[1]);
+        //else if (splitted[0] == "zoom") zoom = std::stoi(splitted[1]);
+        //else if (splitted[0] == "sfx_volume") sfx_volume = std::stoi(splitted[1]);
+        //else if (splitted[0] == "music_volume") music_volume = std::stoi(splitted[1]);
+    }
+}
+
 int main(int argc, char* args[])
 {
+    load_options();
+
     render_init();
     font_init();
 
