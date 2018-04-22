@@ -8,7 +8,8 @@ class Weapon;
 class Enemy: public Object
 {
 public:
-    int time_till_move;
+    int time_till_move, attack_cooldown;
+    const int max_attack_cooldown=80;
     Object *focus_on;
     Weapon *weapon;
 

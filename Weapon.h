@@ -15,6 +15,7 @@ public:
 
     void update();
     void start_attack();
+    bool intersects(SDL_Rect* r);
 };
 
 #endif // _WEAPON

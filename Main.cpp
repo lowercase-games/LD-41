@@ -151,7 +151,6 @@ int main(int argc, char* args[])
 			{
 			    if (e.key.keysym.sym == SDLK_ESCAPE) menu();
 			    else if (e.key.keysym.sym == SDLK_e) dialog("TEST! Test. test? abc123 kasdl kasnd aso dnas idwpo dasdpwodp adi","");
-			    else if (e.key.keysym.sym == SDLK_r) ene->weapon->start_attack();
 			    else if (e.key.keysym.sym == SDLK_l) player->dash();
 			    else if (e.key.keysym.sym == SDLK_j) player->claw_attack();
 			    else if (e.key.keysym.sym == SDLK_k) player->sting_attack();

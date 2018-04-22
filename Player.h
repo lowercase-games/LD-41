@@ -15,7 +15,7 @@ class Player: public Object
     Animations animation;
 public:
     int dash_cooldown, claw_cooldown, sting_cooldown;
-    const int max_dash_cooldown=60, max_claw_cooldown=40, max_sting_cooldown=80;
+    const int max_dash_cooldown=60, max_claw_cooldown=40, max_sting_cooldown=400;
 
     SDL_Rect other_hitbox;
     bool using_walk_hitbox;
