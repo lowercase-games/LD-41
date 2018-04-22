@@ -36,7 +36,7 @@ public:
     void change_animation(std::string s);
     void animate(int frame_time);
     void attack();
-    virtual void move_back();
+    virtual bool move_back();
     virtual void update() {}
     virtual void render();
 };

@@ -1,0 +1,8 @@
+L:Oh you are back. [happy]
+So... are they gone? [normal]
+Did you get my artefact?
+T:Nope.
+Haven't started yet.
+L:So why are you still here? [angry]
+Go, I say!
+And do what you were told. [break]

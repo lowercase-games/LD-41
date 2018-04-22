@@ -23,7 +23,7 @@ public:
     Player();
     ~Player();
 
-    void move_back();
+    bool move_back();
     void move(int x, int y, bool relative=true, bool set_last_pos=true);
     void update();
     bool in_attack_animation();

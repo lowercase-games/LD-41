@@ -123,14 +123,17 @@ void Object::move(int x, int y, bool relative, bool set_last_pos)
     }
 }
 
-void Object::move_back()
+bool Object::move_back()
 {
+    if (last_pos[0] == pos[0] && last_pos[1] == pos[1]) return false;
+
     move(sign(last_pos[0]-pos[0]),sign(last_pos[1]-pos[1]), true, false);
+    return true;
 }
 
 void Object::render()
 {
-    SDL_Rect dest={pos[0], pos[1], size[0], size[1]}, src = {0, size[1]*cur_anim_frame, size[0], size[1]};
+    SDL_Rect dest={pos[0]-camera[0], pos[1]-camera[1], size[0], size[1]}, src = {0, size[1]*cur_anim_frame, size[0], size[1]};
 
     SDL_RenderCopyEx(renderer, iframes?white_texture(tex):tex, &src, &dest, rotation, nullptr, flipped?SDL_FLIP_HORIZONTAL:SDL_FLIP_NONE);
 }

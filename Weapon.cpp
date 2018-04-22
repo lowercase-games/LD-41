@@ -3,8 +3,9 @@
 #include <iostream>
 #include "Enemy.h"
 #include "Player.h"
+#include "Bolt.h"
 
-Weapon::Weapon(Enemy* follows): Object(follows->pos[0],follows->pos[1],"cult_axe",0,0,0,0,4)
+Weapon::Weapon(Enemy* follows): Object(follows->pos[0],follows->pos[1],follows->crossbow?"cult_xbow":"cult_axe",0,0,0,0,4)
 {
     follow = follows;
     attacking_for = 0;
@@ -12,7 +13,7 @@ Weapon::Weapon(Enemy* follows): Object(follows->pos[0],follows->pos[1],"cult_axe
 
 void Weapon::start_attack()
 {
-    change_animation("axe_zoosh");
+    change_animation(follow->crossbow?"xbow_fire":"axe_zoosh");
     attacking_for = 360;
 }
 
@@ -40,25 +41,50 @@ void Weapon::update()
 
     if (attacking_for>0)
     {
-        attacking_for-=20;
-        rotation+=20*(flipped?1:-1);
-
-        if (attacking_for<=0) change_animation("cult_axe");
+        if (follow->crossbow)
+        {
+            animate(5);
+            if (!cur_anim_time)
+            {
+                if (!cur_anim_frame)
+                {
+                    attacking_for=0;
+                    change_animation("cult_xbow");
+                }
+                else if (cur_anim_frame == 4)
+                {
+                    int dx = follow->focus_on->pos[0]-pos[0], dy = follow->focus_on->pos[1]-pos[1];
+                    int d = std::sqrt(dx*dx+dy*dy);
+                    new Bolt(pos[0]+size[0]/2,pos[1]+size[1]/2,7*dx/d,7*dy/d,(Player*) follow->focus_on);
+                }
+            }
+        }
         else
         {
-            if (follow->focus_on->is_player && ((Player*) follow->focus_on)->using_walk_hitbox) ((Player*) follow->focus_on)->switch_hitbox();
+            attacking_for-=20;
+            rotation+=20*(flipped?1:-1);
 
-            if (intersects(follow->focus_on->cur_hitbox())) follow->focus_on->attack();
+            if (attacking_for<=0) change_animation("cult_axe");
+            else
+            {
+                if (follow->focus_on->is_player && ((Player*) follow->focus_on)->using_walk_hitbox) ((Player*) follow->focus_on)->switch_hitbox();
+
+                if (intersects(follow->focus_on->cur_hitbox())) follow->focus_on->attack();
+            }
         }
     }
-    else
+
+    if (follow->crossbow || attacking_for<=0)
     {
-        cur_anim_frame = follow->cur_anim_frame;
+        if (attacking_for<=0) cur_anim_frame = follow->cur_anim_frame;
 
         rotation = -90-std::atan2(pos[0]-follow->focus_on->pos[0], pos[1]-follow->focus_on->pos[1])/M_PI*180;
 
-        if (rotation<-180) rotation=-180;
-        else if (rotation>0) rotation=0;
+        if (!follow->crossbow)
+        {
+            if (rotation<-180) rotation=-180;
+            else if (rotation>0) rotation=0;
+        }
 
         flipped = (rotation > -90);
         if (!flipped) rotation += 180;

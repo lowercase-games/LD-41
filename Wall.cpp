@@ -3,10 +3,10 @@
 #include <iostream>
 #include "Rendering.h"
 
-Wall::Wall(int x, int y, int sx, int sy) : Object(x,y,"",0,0,sx,sy)
+Wall::Wall(int x, int y, int sx, int sy, std::string s) : Object(x,y,s,0,0,sx,sy)
 {
-    size[0] = sx;
-    size[1] = sy;
+    if (sx != -1) size[0] = sx;
+    if (sy != -1) size[1] = sy;
 }
 
 void Wall::update()
@@ -19,7 +19,9 @@ void Wall::update()
         {
             int px = o->pos[0], py = o->pos[1];
             while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE)
-                o->move_back();
+            {
+                if (!o->move_back()) o->move(o->pos[0]-px, o->pos[1]-py);
+            }
 
             if      (o->pos[0]-pos[0] == -o->size[0] || o->pos[0]-pos[0] == size[0]) o->move(o->pos[0],py,false);
             else if (o->pos[1]-pos[1] == -o->size[1] || o->pos[1]-pos[1] == size[1]) o->move(px,o->pos[1],false);
@@ -29,8 +31,15 @@ void Wall::update()
 
 void Wall::render()
 {
-    SDL_SetRenderDrawColor(renderer,0,0,0,255);
-    SDL_Rect r={pos[0], pos[1], size[0], size[1]};
+    if (tex)
+    {
+        Object::render();
+    }
+    else
+    {
+        /*SDL_SetRenderDrawColor(renderer,0,0,0,255);
+        SDL_Rect r={pos[0]-camera[0], pos[1]-camera[1], size[0], size[1]};
 
-    SDL_RenderFillRect(renderer, &r);
+        SDL_RenderFillRect(renderer, &r);*/
+    }
 }

@@ -1,0 +1,11 @@
+L:Oh you are back. [happy]
+So... are they gone? [normal]
+Did you get my artefact?
+T:Sure did.
+And here is your lamp.
+That's some good craftsmanship, if I may say so. [+2]
+L:Aww, thank you so much! [blush]
+You are the best, Tarkus!
+T:Hehe, thanks.
+(She actually got my name right)
+[end]

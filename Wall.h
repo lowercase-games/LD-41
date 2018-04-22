@@ -6,7 +6,7 @@
 class Wall: public Object
 {
 public:
-    Wall(int x, int y, int sx, int sy);
+    Wall(int x, int y, int sx=-1, int sy=-1, std::string s="");
 
     void update();
     void render();

@@ -32,12 +32,14 @@ bool Player::in_attack_animation()
     return (animation == claw) || (animation == sting_up) || (animation == sting_down);
 }
 
-void Player::move_back()
+bool Player::move_back()
 {
-    Object::move_back();
+    if (!Object::move_back()) return false;
+
     accurate_pos[0] = pos[0];
     accurate_pos[1] = pos[1];
     //speed[0] = speed[1] = 0;
+    return true;
 }
 
 void Player::move(int x, int y, bool relative, bool set_last_pos)

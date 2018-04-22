@@ -1,0 +1,109 @@
+L:[normal]Oh! You are not one of them, are you? 
+T:One of...? 
+L:[angry]Those pesky humans. 
+T:Is it that obvious, huh? 
+L:I tell you, you play one harmless prank on them 
+And they are immediately out to put your head on a spike. 
+T:(She is totally ignoring me...) 
+[2 choices] 
+What did you do? 
+{
+	L:Ah, you know... 
+	Just messed with them a bit. 
+	I entered their heads and ridiculed them for their greatest shortcomings. [happy]
+} 	
+I know, right? Humans are the worst. 
+They could all drop dead for all I care.
+{ 
+	L:I actually think they are quite fun to play with. [angry]
+	Today I just messed with them a bit.
+	I entered their heads [happy]
+	And ridiculed them for their greatest shortcomings. [-1] 
+}
+T:That uhm...
+[2 choices]
+Sounds cruel!
+{
+	L:You are such a spoilsport! [sad]
+	Humans are there to be messed with!
+	Hmph! You don’t get it at all.
+	Stupid fluffy... [angry]
+	Lion...
+	Thing!!!
+	What even are you supposed to be?	[normal]
+}
+Sounds incredibly fun!!
+{
+	L:Haha! [happy]
+	You know it!
+	The way they sob in despair and anguish... [angry]
+	I can’t get enough of it. [happy]
+	You seem to be quite reasonable after all.
+	What are you anyway? [+1]
+}
+T:I'm Tarkus.
+Tarkus the Manticore.
+L:Well Tarkus,
+It was about time that you introduced yourself *hmph*. [normal]
+T:(That brat...)
+And who might you be?
+L:What?! [sad]
+Don't tell me you don't know.
+T:Well...
+[3 choices]
+I... Uhm... Don't know.
+{
+	L:What?
+	You must be kidding, stupid! [sad]
+	I'm the Flamingodess Leeta!
+	That's common knowledge amongst us monsters!
+	Well, at least you were honest... [normal]
+	Honestly stupid.
+	Hahaha! [happy]
+	}
+You are a Flamingo!
+{
+	Excuse [angry]
+	ME!
+	A mere flamingo you say?
+	Are you stupid?!
+	Are you sure you re not one of those retarded humans?
+	For crying out loud... [sad]
+	I'm the Flamingodess Leeta!
+	That's common knowledge amongst us monsters!
+	Honestly... [normal] [-1]
+}
+You must be some sort of deity.
+{
+	L:That is correct! [happy]
+	You totally just said that because it was the obvious choice,
+	Didn't you? [normal]
+	T:Huh? Choice?
+	L:Sorry, that was a strange thing to ask. [happy]
+	T:(*Phew* Close call)
+	L:I'm the Flamingodess Leeta.
+	But I guess you already knew that.
+	Which of course is to be expected...
+	Knowing my reputation and all.
+	You are not sooo stupid after all. [+1]
+}
+L:Anyway! [normal]
+Could I ask you a favour, Taco?
+T:It's Tarku-
+L:I want you to get rid of those humans.
+T:Okay, but for the record my name i-
+L:And if you have the time, could you fight my artefact too?
+It's a lamp created in my image.
+T:[2 choices]
+Well... Sure.
+{
+	L:Great! [happy]
+	Now go!
+	I don't have all day you know? [break]
+}
+Nope. To be honest you have a horrible personality.
+{
+	L:Well then get lost! [sad]
+	I have enough of your dumb fluffy face anyway! [-4]
+	[end]
+}

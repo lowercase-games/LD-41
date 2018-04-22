@@ -8,6 +8,15 @@
 SDL_Window* renderwindow;
 SDL_Renderer* renderer;
 
+int last_time;
+float wait;
+void limit_fps()
+{
+    wait = (100.0/6)-(SDL_GetTicks() - last_time);
+    if (wait>0) SDL_Delay(wait);
+    last_time = SDL_GetTicks();
+}
+
 void render_init()
 {
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -58,10 +67,22 @@ void draw_pie(int x, int cur, int max, std::string key, std::string tex)
 {
     filledPieRGBA(renderer,x,window[1]-30,17,-90,271-360*cur/max,205,255,199,255);
     circleRGBA(renderer,x,window[1]-30,17,0,0,0,255);
-    render_text(x-23,window[1]-53,key,0,255,false);
+    render_text(x-23,window[1]-53,key,0,255,false,true);
 
     SDL_Rect r = {x-16,window[1]-46,32,32};
     SDL_RenderCopy(renderer,load_image(tex),nullptr,&r);
+}
+
+void render_bg(SDL_Texture* bg, int bg_x, int bg_y)
+{
+    if (bg_x == -1) SDL_QueryTexture(bg, nullptr, nullptr, &bg_x, &bg_y);
+
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
+    SDL_RenderClear(renderer);
+
+    SDL_Rect src = {std::min(bg_x-window[0],std::max(0,camera[0])),std::min(bg_y-window[1],std::max(0,camera[1])),window[0],window[1]};
+    SDL_Rect dest = {std::min(bg_x-camera[0]-window[0],std::max(0,-camera[0])),std::min(bg_y-camera[1]-window[1],std::max(0,-camera[1])),window[0],window[1]};
+    SDL_RenderCopy(renderer,bg,&src,&dest);
 }
 
 void render_ui(Player* player)
@@ -71,10 +92,9 @@ void render_ui(Player* player)
     draw_pie(window[0]-40,player->dash_cooldown,player->max_dash_cooldown,"L","dash");
 
     SDL_SetRenderDrawColor(renderer,255,0,0,255);
-    SDL_Rect r = {5,5,50*player->hp / player->max_hp,10};
+    SDL_Rect r = {13,31,181*player->hp / player->max_hp,14};
     SDL_RenderFillRect(renderer,&r);
 
-    SDL_SetRenderDrawColor(renderer,0,0,0,255);
-    r.w = 50;
-    SDL_RenderDrawRect(renderer,&r);
+    SDL_Rect re = {0,0,201,55};
+    SDL_RenderCopy(renderer,load_image("healthbar"),nullptr,&re);
 }
