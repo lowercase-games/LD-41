@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Rendering.h"
 
-Wall::Wall(int x, int y, int sx, int sy, std::string s) : Object(x,y,s,0,0,sx,sy)
+Wall::Wall(int x, int y, int sx, int sy, std::string s, int animation_frames) : Object(x,y,s,0,0,sx,sy,animation_frames)
 {
     if (sx != -1) size[0] = sx;
     if (sy != -1) size[1] = sy;

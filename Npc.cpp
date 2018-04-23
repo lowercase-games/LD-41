@@ -7,7 +7,7 @@
 
 std::deque<Npc*> npcs;
 
-Npc::Npc(int x, int y, std::string nam, npc_type typ, int hitx, int hity, int hitw, int hith): Wall(x,y,-1,-1,nam)
+Npc::Npc(int x, int y, std::string nam, npc_type typ, int hitx, int hity, int hitw, int hith, int animation_frames): Wall(x,y,-1,-1,nam,animation_frames)
 {
     name = char(toupper(nam[0]))+nam.substr(1);
     npcs.push_back(this);
@@ -19,6 +19,19 @@ Npc::Npc(int x, int y, std::string nam, npc_type typ, int hitx, int hity, int hi
 Npc::~Npc()
 {
     remove_it(&npcs,this);
+}
+
+void Npc::update()
+{
+    Wall::update();
+    if (type == kasaobake & progress==0)
+    {
+        animate(10);
+        if (!cur_anim_frame && !cur_anim_time && (pos[0] < 200 || pos[0] > 300)) flipped = !flipped;
+
+        if (cur_anim_frame >=4 && cur_anim_frame <= 5) move(flipped?1:-1,0);
+        if (cur_anim_frame == 6 && !cur_anim_time) move(flipped?11:-11,0);
+    }
 }
 
 bool Npc::interact(Object* interacter)

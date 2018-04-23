@@ -19,9 +19,10 @@ public:
     int progress;
     npc_type type;
 
-    Npc(int x, int y, std::string nam, npc_type typ, int hitx=0, int hity=0, int hitw=-1, int hith=-1);
+    Npc(int x, int y, std::string nam, npc_type typ, int hitx=0, int hity=0, int hitw=-1, int hith=-1, int animation_frames=1);
     ~Npc();
     bool interact(Object* interacter);
+    void update();
 };
 
 #endif // _NPC
