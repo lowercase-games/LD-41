@@ -30,7 +30,7 @@ std::map<std::pair<std::string,Uint8>,SDL_Texture*> loaded_texts;
 SDL_Texture* text_to_texture(std::string s, Uint8 brightness, bool ui)
 {
     std::pair<std::string,Uint8> p = {s, brightness};
-    if (!loaded_texts.count(p)) loaded_texts[p] = SDL_CreateTextureFromSurface(renderer,TTF_RenderUTF8_Solid((ui?font_ui:font), s.c_str(), {brightness,brightness,brightness,255}));
+    if (!loaded_texts.count(p)) loaded_texts[p] = SDL_CreateTextureFromSurface(renderer,TTF_RenderText_Solid((ui?font_ui:font), s.c_str(), {brightness,brightness,brightness,255}));
     return loaded_texts[p];
 }
 

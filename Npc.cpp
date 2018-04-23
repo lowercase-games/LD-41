@@ -54,7 +54,7 @@ bool Npc::interact(Object* interacter)
             if (progress == 0) progress++;
             else if (progress == 1)
             {
-                if (collected_items::kill_isa_quest_token)
+                if (collected_items::kill_ysa_quest_token)
                 {
                     if (collected_items::artifact && enemies.empty())
                     {
@@ -72,7 +72,7 @@ bool Npc::interact(Object* interacter)
             }
         }
 
-        bool was_isa_quest = collected_items::kill_isa_quest_token;
+        bool was_isa_quest = collected_items::kill_ysa_quest_token;
 
         VN_from_file(name, special);
 
@@ -97,7 +97,7 @@ bool Npc::interact(Object* interacter)
             progress++;
             load_cultists(interacter);
         }
-        else if (was_isa_quest = collected_items::kill_isa_quest_token)
+        else if (was_isa_quest != collected_items::kill_ysa_quest_token)
         {
             new Npc(1565,80,"ysa",ysa,22,42,24,21);
             load_cultists(interacter);

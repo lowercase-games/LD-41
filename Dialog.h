@@ -11,6 +11,7 @@ enum Ending
 };
 
 extern std::map<char, int> affection;
+extern bool instant_text;
 
 void random_init();
 int random(int x, int y);

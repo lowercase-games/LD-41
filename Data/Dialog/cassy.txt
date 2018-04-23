@@ -1,4 +1,4 @@
-C:H-hey’ä! [normal]
+C:H-hey! [normal]
 You!
 I mean... [sad]
 Uhm, Catty! Big fluffy kitten! [normal]
@@ -50,7 +50,7 @@ C:I completely forgot to introduce myself. [happy]
 I'm such a clutz uhwa~ [sad]
 T:I don't know if clutz is the right w-
 C:I-I'm! [normal]
-I'm Ctha’ghot, the lurking terror.
+I'm Ctha'ghot, the lurking terror.
 Daughter of the Cosmos!
 But my freinds call me Cassy. [happy]
 Ehehe~
@@ -63,11 +63,11 @@ That's a very... unique name.
 	T:Yeah... sure.
 	C:Thank you!
 }
-Iä!Iä!Ctha’ghot fhtagn!
+Iä!Iä!Ctha'ghot fhtagn!
 {
-	C:Uwah~	[blush]
+	C:Uwah~ [blush]
 	B-but I'm not sleeping at all.
-	You are not one of those meany cultits that summoned me here, are you?	[angry]
+	You are not one of those meany cultits that summoned me here, are you? [angry]
 	T:Oh, no!
 	Not at all, sorry!
 	I'm just a fan of cosmic horror. 
@@ -83,14 +83,14 @@ Iä!Iä!Ctha’ghot fhtagn!
 		C:A- [sad]
 		Abomination?
 		Wha- what.. why are you...
-		Uwaaaaaaahaha!
+		Uwaaaaaaah  aha!
 		T:(Probably shouldn't have said that)
 		C:You're such a meany! [-1]
 		T:Sorry about that.
 	}
 	Someone with an extraordinary taste!
 	{
-		C:Yay!	[happy]
+		C:Yay! [happy]
 		I knew someone like you would come along one day! [+1]
 		Let us speak feverishly, chatting into the wee hours... [blush]
 		T:Of new ideas of the higher plane!
@@ -236,7 +236,7 @@ I can help you! Is there anything you would like me to do about it?
 		A kind Manticore shall be blessed with the gift of the stars.
 		T:Poetic.
 		C:Thank you Tarkus.
-		[trigger kill cassy quest]
+		[trigger kill ysa quest]
 	}
 	I will set you free. But I won't kill her.
 	{

@@ -9,8 +9,10 @@
 #include "Rendering.h"
 #include "Font.h"
 #include "Level.h"
+#include "Item.h"
 
 std::map<char, int> affection;
+bool instant_text=false;
 
 void menu()
 {
@@ -36,7 +38,7 @@ int pos_x = -1;
 #define direction (pos_x<window[0]*scale/4 ? 1:(pos_x+me_w>window[0]*scale*3/4 ? -1:(random(0,1) ? -1:1)))
 void dialog(std::string text, std::string image, SDL_Texture* bg)
 {
-    int progress = 0, frames_since_progress=0;
+    int progress = instant_text?text.size():text.find(":")+1, frames_since_progress=0;
 
     SDL_Texture *me = load_image(image);
     int me_h, me_w;
@@ -211,7 +213,7 @@ SDL_Texture* make_dialog_bg()
 }
 
 std::stack<int> return_positions;
-void VN_from_file(std::string filename, std::string special) //TODO: [trigger kill cassy/ysa quest] [abort kill cassy quest] [end quest] friend-end
+void VN_from_file(std::string filename, std::string special) //friend-end
 {
     if (!affection.count(filename[0])) affection[filename[0]] = 0;
 
@@ -233,7 +235,7 @@ void VN_from_file(std::string filename, std::string special) //TODO: [trigger ki
     while (!file.eof())
     {
         getline(file,line);
-        std::cout << line << "\n";
+        //std::cout << line << "\n";
 
         //skip to the end of the choices
         if (line[0] == '}')
@@ -249,6 +251,7 @@ void VN_from_file(std::string filename, std::string special) //TODO: [trigger ki
         {
             int u = line.find(']',i);
             std::string command = line.substr(i+1,u-i-1);
+            std::cout << command;
 
             //commands with numbers
             if (isdigit(command[0]) || command[0] == '-' || command[0] == '+')
@@ -323,6 +326,14 @@ void VN_from_file(std::string filename, std::string special) //TODO: [trigger ki
             else if (command == "kill")
             {
                 affection[filename[0]] = dead_end;
+                to_return=true;
+            }
+            else if (command == "trigger kill cassy quest") collected_items::kill_cassy_quest_token = true;
+            else if (command == "abort kill cassy quest") collected_items::kill_cassy_quest_token = false;
+            else if (command == "trigger kill ysa quest") collected_items::kill_ysa_quest_token = true;
+            else if (command == "end quest")
+            {
+                affection[filename[0]] = negative_end;
                 to_return=true;
             }
             //command is just a change of emotion

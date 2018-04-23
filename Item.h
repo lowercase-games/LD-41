@@ -6,7 +6,7 @@
 namespace collected_items
 {
     extern bool lamp, tentacle, deep_one_flesh, artifact;
-    extern bool kill_cassy_quest_token, kill_isa_quest_token;
+    extern bool kill_cassy_quest_token, kill_ysa_quest_token;
 }
 
 class Item: public Object

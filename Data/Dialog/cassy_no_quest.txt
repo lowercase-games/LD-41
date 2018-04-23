@@ -30,7 +30,7 @@ I did. Let's kick some ass!
 		A kind Manticore shall be blessed with the gift of the stars.
 		T:Poetic.
 		C:Thank you Tarkus.
-		*Starts Quests (killandfetch and Ysa)*
+		[trigger kill ysa quest]
 	}
 	I will set you free. But I won't kill her.
 	{
