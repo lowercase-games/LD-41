@@ -59,7 +59,11 @@ void Object::attack()
 {
     if (!iframes)
     {
-        if (--hp <= 0) to_delete.push_back(this);
+        if (--hp <= 0)
+        {
+            if (is_player) breakk = true;
+            else to_delete.push_back(this);
+        }
         else iframes = 16;
     }
 }

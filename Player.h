@@ -15,12 +15,12 @@ class Player: public Object
     Animations animation;
 public:
     int dash_cooldown, claw_cooldown, sting_cooldown;
-    const int max_dash_cooldown=60, max_claw_cooldown=40, max_sting_cooldown=400;
+    const int max_dash_cooldown=60, max_claw_cooldown=40, max_sting_cooldown=200;
 
     SDL_Rect other_hitbox;
     bool using_walk_hitbox;
 
-    Player();
+    Player(int x, int y);
     ~Player();
 
     bool move_back();

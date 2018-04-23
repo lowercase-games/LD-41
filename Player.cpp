@@ -3,7 +3,7 @@
 const float lin_stop = 0.1, const_stop = 0.5, acceleration = 1.5;
 const int dash_speed = 20;
 
-Player::Player():Object(0,0,"manticore_idle",2,44,51,19,4)
+Player::Player(int x, int y):Object(x,y,"manticore_idle",2,44,51,19,4)
 {
     accurate_pos[0] = pos[0];
     accurate_pos[1] = pos[1];
@@ -18,6 +18,8 @@ Player::Player():Object(0,0,"manticore_idle",2,44,51,19,4)
 
     using_walk_hitbox=true;
     other_hitbox = {2,26,51,25};
+
+    hp = max_hp = 10;
 
     is_player = true;
 }

@@ -20,7 +20,14 @@ void Wall::update()
             int px = o->pos[0], py = o->pos[1];
             while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE)
             {
-                if (!o->move_back()) o->move(o->pos[0]-px, o->pos[1]-py);
+                if (!o->move_back())
+                {
+                    if (o->pos[0]!=px || o->pos[1]!=py) o->move(o->pos[0]-px, o->pos[1]-py);
+                    else
+                    {
+                        while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE) o->move(0,1);
+                    }
+                }
             }
 
             if      (o->pos[0]-pos[0] == -o->size[0] || o->pos[0]-pos[0] == size[0]) o->move(o->pos[0],py,false);
@@ -37,9 +44,9 @@ void Wall::render()
     }
     else
     {
-        /*SDL_SetRenderDrawColor(renderer,0,0,0,255);
-        SDL_Rect r={pos[0]-camera[0], pos[1]-camera[1], size[0], size[1]};
+        SDL_SetRenderDrawColor(renderer,0,0,0,255);
+        SDL_Rect r={pos[0]-camera[0], pos[1]-64-camera[1], size[0], size[1]-64};
 
-        SDL_RenderFillRect(renderer, &r);*/
+        SDL_RenderFillRect(renderer, &r);
     }
 }

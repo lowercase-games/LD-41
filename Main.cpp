@@ -12,6 +12,8 @@
 #include "Weapon.h"
 #include "Dialog.h"
 #include "Npc.h"
+#include "Level.h"
+#include "Item.h"
 
 #ifndef _STATIC
 void *__gxx_personality_v0;
@@ -21,6 +23,7 @@ const int window[2] = {640,360}, scale=3;
 int camera[2] = {0,0};
 
 bool breakk = false;
+int level=1;
 
 void move_camera(Object* to)
 {
@@ -75,16 +78,12 @@ int main(int argc, char* args[])
     render_init();
     font_init();
 
-    Player* player = new Player();
-    new Enemy(200,800,player,true);
-    new Enemy(800,200,player,false);
-    //new Wall(80,50,100,50);
-    new Npc(200,200,"leeta",leeta,17,40,31,23);
+    Player* player = load_level();
 
     camera[0] = player->pos[0]-window[0]/2;
     camera[1] = player->pos[1]-window[1]/2;
 
-    SDL_Texture* bg = load_image("bg");
+    SDL_Texture* bg = load_image("bg"+std::to_string(level));
     int bg_x, bg_y;
     SDL_QueryTexture(bg, nullptr, nullptr, &bg_x, &bg_y);
 

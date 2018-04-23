@@ -15,7 +15,7 @@
 extern SDL_Renderer* renderer;
 extern const int window[2], scale;
 extern bool breakk;
-extern int camera[2];
+extern int camera[2], level;
 
 extern bool fullscreen, vsync;
 

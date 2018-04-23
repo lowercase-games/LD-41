@@ -14,6 +14,7 @@ Enemy::Enemy(int x, int y, Object* focus, bool xbow) : Object(x,y,"cult_walk_"+s
     enemies.push_back(this);
 
     crossbow = xbow;
+    max_hp = hp = crossbow?4:3;
 
     weapon = new Weapon(this);
 }
@@ -38,7 +39,20 @@ void Enemy::update()
         animate(5);
         move(sign(focus_on->pos[0]-pos[0]),sign(focus_on->pos[1]-pos[1]));
 
-        if (!attack_cooldown && !weapon->attacking_for && std::pow(pos[0]-focus_on->pos[0],2)+std::pow(pos[1]-focus_on->pos[1],2) < (crossbow?200*200:74*74))
+        for (Object* e: enemies)
+        {
+            if (e == this) break;
+            else
+            {
+                if (abs(e->pos[0]-pos[0])+abs(e->pos[1]-pos[1]) < 64)
+                {
+                    move(-sign(e->pos[0]-pos[0]),-sign(e->pos[1]-pos[1]),true,false);
+                    e->move(sign(e->pos[0]-pos[0]),sign(e->pos[1]-pos[1]),true,false);
+                }
+            }
+        }
+
+        if (!attack_cooldown && !weapon->attacking_for && std::pow(pos[0]-focus_on->pos[0],2)+std::pow(pos[1]-focus_on->pos[1],2) < (crossbow?400*400:74*74))
         {
             attack_cooldown = max_attack_cooldown;
             weapon->start_attack();

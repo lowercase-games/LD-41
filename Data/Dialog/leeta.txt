@@ -8,7 +8,7 @@ T:(She is totally ignoring me...)
 [2 choices] 
 What did you do? 
 {
-	L:Ah, you know... 
+	L:Ah, you know...
 	Just messed with them a bit. 
 	I entered their heads and ridiculed them for their greatest shortcomings. [happy]
 } 	
@@ -26,7 +26,7 @@ Sounds cruel!
 {
 	L:You are such a spoilsport! [sad]
 	Humans are there to be messed with!
-	Hmph! You don’t get it at all.
+	Hmph! You don't get it at all.
 	Stupid fluffy... [angry]
 	Lion...
 	Thing!!!
@@ -37,7 +37,7 @@ Sounds incredibly fun!!
 	L:Haha! [happy]
 	You know it!
 	The way they sob in despair and anguish... [angry]
-	I can’t get enough of it. [happy]
+	I can't get enough of it. [happy]
 	You seem to be quite reasonable after all.
 	What are you anyway? [+1]
 }
@@ -67,7 +67,7 @@ You are a Flamingo!
 	ME!
 	A mere flamingo you say?
 	Are you stupid?!
-	Are you sure you re not one of those retarded humans?
+	Are you sure you're not one of those retarded humans?
 	For crying out loud... [sad]
 	I'm the Flamingodess Leeta!
 	That's common knowledge amongst us monsters!
@@ -92,7 +92,7 @@ Could I ask you a favour, Taco?
 T:It's Tarku-
 L:I want you to get rid of those humans.
 T:Okay, but for the record my name i-
-L:And if you have the time, could you fight my artefact too?
+L:And if you have the time, could you fetch my artefact too?
 It's a lamp created in my image.
 T:[2 choices]
 Well... Sure.

@@ -1,6 +1,8 @@
 #include "Npc.h"
 
 #include "Dialog.h"
+#include "Level.h"
+#include "Item.h"
 
 std::deque<Npc*> npcs;
 
@@ -22,7 +24,42 @@ bool Npc::interact(Object* interacter)
 {
     if (std::pow(pos[0]-interacter->pos[0],2)+std::pow(pos[1]-interacter->pos[1],2) < 100*100)
     {
-        VN_from_file(name);
+        std::string special = "";
+        if (type == leeta)
+        {
+            if (progress == 0)
+            {
+                progress++;
+                load_cultists(interacter);
+            }
+            else if (progress == 1)
+            {
+                if (enemies.empty())
+                {
+                    if (collected_items::lamp) special = "both";
+                    else special = "no_artefact";
+                }
+                else special = "no_quest";
+            }
+            else return false; //there's nothing else to say
+        }
+
+        VN_from_file(name, special);
+
+        if (!(affection[name[0]]%100) && affection[name[0]]) //ending was triggered
+        {
+            progress = 100;
+            if (type == leeta)
+            {
+                change_animation("leeta_dead");
+            }
+        }
+        else if (type == leeta && progress == 0)
+        {
+            progress++;
+            load_cultists(interacter);
+        }
+
         return true;
     }
 

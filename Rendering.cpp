@@ -31,8 +31,8 @@ void render_init()
                                     SDL_WINDOW_SHOWN | (fullscreen?SDL_WINDOW_FULLSCREEN_DESKTOP:0));
     renderer = SDL_CreateRenderer(renderwindow, -1, SDL_RENDERER_ACCELERATED | (vsync?SDL_RENDERER_PRESENTVSYNC:0));
 
-    SDL_RenderSetScale(renderer,scale,scale);
-    //SDL_RenderSetLogicalSize(renderer, window[0], window[1]);
+    //SDL_RenderSetScale(renderer,scale,scale);
+    SDL_RenderSetLogicalSize(renderer, window[0], window[1]);
 }
 
 std::map<std::string,SDL_Texture*> loaded_textures;
