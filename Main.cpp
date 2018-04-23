@@ -14,6 +14,7 @@
 #include "Npc.h"
 #include "Level.h"
 #include "Item.h"
+#include "Savestate.h"
 
 #ifndef _STATIC
 void *__gxx_personality_v0;
@@ -22,7 +23,7 @@ void *__gxx_personality_v0;
 const int window[2] = {640,360}, scale=3;
 int camera[2] = {0,0};
 
-bool breakk = false;
+bool breakk = false, load_save = false;
 
 void move_camera(Object* to)
 {
@@ -77,7 +78,12 @@ int main(int argc, char* args[])
     render_init();
     font_init();
 
+    show_screen("start_screen");
+
     Player* player = load_level();
+
+    save = new Savestate();
+    save->save(player);
 
     camera[0] = player->pos[0]-window[0]/2;
     camera[1] = player->pos[1]-window[1]/2;
@@ -111,6 +117,11 @@ int main(int argc, char* args[])
             load_next_level = false;
             level++;
             player = load_level();
+        }
+        else if (load_save)
+        {
+            load_save = false;
+            player = save->load();
         }
 
         //Updating

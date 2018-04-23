@@ -18,6 +18,7 @@ public:
     std::string name;
     int progress;
     npc_type type;
+    bool just_spawned_cultists;
 
     Npc(int x, int y, std::string nam, npc_type typ, int hitx=0, int hity=0, int hitw=-1, int hith=-1, int animation_frames=1);
     ~Npc();

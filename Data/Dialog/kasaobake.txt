@@ -238,7 +238,7 @@ I don't think I have to help you.
 									You shall be granted audience with Lord Kitsune. [happy]
 									I think you will like him... [+3]
 									[spawn kitsune]
-									[break]
+									[end]
 								}
 								
 							}

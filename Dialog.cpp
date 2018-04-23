@@ -40,16 +40,17 @@ void dialog(std::string text, std::string image, SDL_Texture* bg)
 {
     int progress = instant_text?text.size():text.find(":")+1, frames_since_progress=0;
 
-    SDL_Texture *me = load_image(image);
-    int me_h, me_w;
+    SDL_Texture *me = load_image(image), *textbox = load_image("textbox");
+    int me_h, me_w, textbox_h, textbox_w;
     SDL_QueryTexture(me,nullptr,nullptr,&me_w,&me_h);
+    SDL_QueryTexture(textbox,nullptr,nullptr,&textbox_w,&textbox_h);
 
     if (pos_x == -1) pos_x = (window[0]*scale-me_w)/2;
 
     SDL_Rect me_rect = {pos_x, window[1]*scale-me_h, me_w, me_h};
-    SDL_Rect textbox_rect = {100,window[1]*scale-200,window[0]*scale-200, 200-5};
+    SDL_Rect textbox_rect = {window[0]*scale/2-textbox_w/2,window[1]*scale-textbox_h-5,textbox_w, textbox_h};
 
-    add_newlines(text , textbox_rect.w-10);
+    add_newlines(text , textbox_rect.w-40);
 
     int to_move = 60*direction;
 
@@ -86,12 +87,9 @@ void dialog(std::string text, std::string image, SDL_Texture* bg)
 
         if (!text.empty())
         {
-            SDL_SetRenderDrawColor(renderer,0,0,0,255);
-            SDL_RenderFillRect(renderer,&textbox_rect);
-            SDL_SetRenderDrawColor(renderer,255,255,255,255);
-            SDL_RenderDrawRect(renderer,&textbox_rect);
+            SDL_RenderCopy(renderer,textbox,nullptr,&textbox_rect);
 
-            render_text(textbox_rect.x+5,textbox_rect.y,text.substr(0,progress),255,255, false, false);
+            render_text(textbox_rect.x+20,textbox_rect.y+10,text.substr(0,progress),255,255, false, false);
 
             if (progress < text.length())
             {
@@ -121,14 +119,15 @@ int choice(std::deque<std::string> texts, std::string image, SDL_Texture* bg)
 
     make_text
 
-    SDL_Texture *me = load_image(image);
-    int me_h, me_w;
+    SDL_Texture *me = load_image(image), *textbox = load_image("textbox");
+    int me_h, me_w, textbox_h, textbox_w;
     SDL_QueryTexture(me,nullptr,nullptr,&me_w,&me_h);
+    SDL_QueryTexture(textbox,nullptr,nullptr,&textbox_w,&textbox_h);
 
     if (pos_x == -1) pos_x = (window[0]*scale-me_w)/2;
 
     SDL_Rect me_rect = {pos_x, window[1]*scale-me_h, me_w, me_h};
-    SDL_Rect textbox_rect = {100,window[1]*scale-200,window[0]*scale-200, 200-5};
+    SDL_Rect textbox_rect = {window[0]*scale/2-textbox_w/2,window[1]*scale-textbox_h-5,textbox_w, textbox_h};
 
     SDL_Event e;
 	while (!breakk)
@@ -157,12 +156,9 @@ int choice(std::deque<std::string> texts, std::string image, SDL_Texture* bg)
         SDL_RenderCopy(renderer,bg,nullptr,nullptr);
         SDL_RenderCopy(renderer,me,nullptr,&me_rect);
 
-        SDL_SetRenderDrawColor(renderer,0,0,0,255);
-        SDL_RenderFillRect(renderer,&textbox_rect);
-        SDL_SetRenderDrawColor(renderer,255,255,255,255);
-        SDL_RenderDrawRect(renderer,&textbox_rect);
+        SDL_RenderCopy(renderer,textbox,nullptr,&textbox_rect);
 
-        render_text(textbox_rect.x+5,textbox_rect.y,text,255,255, false, false);
+        render_text(textbox_rect.x+20,textbox_rect.y+10,text,255,255, false, false);
 
         SDL_RenderPresent(renderer);
         limit_fps();
@@ -213,7 +209,7 @@ SDL_Texture* make_dialog_bg()
 }
 
 std::stack<int> return_positions;
-void VN_from_file(std::string filename, std::string special) //TODO: [spawn kitsune] friend-end
+void VN_from_file(std::string filename, std::string special) //TODO: friend-end
 {
     if (!affection.count(filename[0])) affection[filename[0]] = 0;
 

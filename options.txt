@@ -1,4 +1,4 @@
 fullscreen=1
 vsync=0
 instant_text=1
-easy_mode=1
+easy_mode=0

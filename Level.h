@@ -8,6 +8,6 @@ extern int level;
 extern bool load_next_level;
 
 Player* load_level();
-void load_cultists(Object* player);
+void load_cultists(Object* player, bool save_game=true);
 
 #endif // _LEVEL

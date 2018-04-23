@@ -63,7 +63,11 @@ void Object::attack()
     {
         if (--hp <= 0)
         {
-            if (is_player) breakk = true;
+            if (is_player)
+            {
+                load_save = true;
+                show_screen("death_screen");
+            }
             else to_delete.push_back(this);
         }
         else iframes = 16;

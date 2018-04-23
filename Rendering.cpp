@@ -100,9 +100,9 @@ void show_screen(std::string tex)
 
 void draw_pie(int x, int cur, int max, std::string key, std::string tex)
 {
-    filledPieRGBA(renderer,x,window[1]-30,17,-90,271-360*cur/max,205,255,199,255);
-    circleRGBA(renderer,x,window[1]-30,17,0,0,0,255);
-    render_text(x-23,window[1]-53,key,0,255,false,true);
+    filledPieRGBA(renderer,x,window[1]-30,17,-90,271-360*cur/max,140,134,119,255);
+    circleRGBA(renderer,x,window[1]-30,17,50,50,50,255);
+    render_text(x-23,window[1]-53,key,255,255,false,true);
 
     SDL_Rect r = {x-16,window[1]-46,32,32};
     SDL_RenderCopy(renderer,load_image(tex),nullptr,&r);

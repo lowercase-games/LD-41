@@ -8,8 +8,9 @@
 #include "Npc.h"
 #include "Item.h"
 #include "Hole.h"
+#include "Savestate.h"
 
-int level=3;
+int level=1;
 bool load_next_level=false;
 
 Player* load_level()
@@ -22,7 +23,7 @@ Player* load_level()
     {
         player = new Player(50,950);
         new Npc(190,500,"leeta",leeta,17,40,31,23);
-        new Item(1207,900,"lamp",&collected_items::lamp, player);
+        if (!collected_items::lamp) new Item(1207,900,"lamp",&collected_items::lamp, player);
         new Hole(35,95, player);
     }
     else if (level == 2)
@@ -30,15 +31,15 @@ Player* load_level()
         player = new Player(35,95);
         new Hole(1800,95, player);
         new Npc(755,810,"cassy",cassy,18,41,27,22);
-        new Item(1620,684,"artifact",&collected_items::artifact, player);
-        //new Npc(1565,80,"ysa",ysa,22,42,24,21);
+        if (!collected_items::artifact) new Item(1620,684,"artifact",&collected_items::artifact, player);
+        if (collected_items::kill_ysa_quest_token) new Npc(1565,80,"ysa",ysa,22,42,24,21);
     }
     else
     {
         player = new Player(1800,95);
         new Hole(943,94, player);
         new Npc(255,810,"kasaobake_jump",kasaobake,29,39,10,25,9);
-        //new Npc(255,610,"kitsune",kitsune,22,49,32,15);
+        if (collected_items::kitsune_token)  new Npc(255,610,"kitsune",kitsune,22,49,32,15);
     }
 
     std::fstream file;
@@ -54,6 +55,8 @@ Player* load_level()
         if (!line.empty()) new Wall(std::stoi(splitted[0]),std::stoi(splitted[1]),std::stoi(splitted[2]),std::stoi(splitted[3]));
     }
 
+    file.close();
+
     new Wall(0,0,1920,64);
     new Wall(-64,0,64,1144);
     new Wall(0,1080+64,1920,128);
@@ -64,8 +67,10 @@ Player* load_level()
     return player;
 }
 
-void load_cultists(Object* player)
+void load_cultists(Object* player, bool save_game)
 {
+    if (save_game) save->save((Player*) player);
+
     std::fstream file;
     file.open((std::string("Data")+PATH_SEPARATOR+"Levels"+PATH_SEPARATOR+"level"+std::to_string(level)+"_cultists.txt"));
 
@@ -78,4 +83,6 @@ void load_cultists(Object* player)
 
         if (!line.empty()) new Enemy(std::stoi(splitted[0]),std::stoi(splitted[1]),player,std::stoi(splitted[2]));
     }
+
+    file.close();
 }

@@ -118,8 +118,12 @@ bool Npc::interact(Object* interacter)
                 collected_items::tentacle = true;
                 to_delete.push_back(this);
             }
+            else if (type == kasaobake && collected_items::kitsune_token)
+            {
+                new Npc(255,610,"kitsune",kitsune,22,49,32,15);
+            }
         }
-        else if ((type == leeta && progress == 0))
+        else if (type == leeta && progress == 0)
         {
             progress++;
             load_cultists(interacter);
@@ -132,10 +136,6 @@ bool Npc::interact(Object* interacter)
                 progress++;
                 load_cultists(interacter);
                 change_animation("kasaobake");
-            }
-            else if (collected_items::kitsune_token)
-            {
-                new Npc(255,610,"kitsune",kitsune,22,49,32,15);
             }
         }
         else if (was_isa_quest != collected_items::kill_ysa_quest_token)
