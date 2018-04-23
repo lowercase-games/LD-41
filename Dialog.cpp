@@ -336,6 +336,22 @@ void VN_from_file(std::string filename, std::string special) //TODO: [spawn kits
                 affection[filename[0]] = negative_end;
                 to_return=true;
             }
+            else if (command == "crash")
+            {
+                to_return=true;
+                breakk=true;
+            }
+            else if (command == "max revive")
+            {
+                if (affection['C'] == dead_end) affection['C'] = neutral_end;
+                if (affection['Y'] == dead_end) affection['Y'] = neutral_end;
+            }
+            else if (command == "kitsune end")
+            {
+                show_screen("kitsune_end");
+                to_return=true;
+                breakk=true;
+            }
             //command is just a change of emotion
             else emotion = command;
 

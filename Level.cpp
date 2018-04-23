@@ -38,6 +38,7 @@ Player* load_level()
         player = new Player(1800,95);
         new Hole(943,94, player);
         new Npc(255,810,"kasaobake_jump",kasaobake,29,39,10,25,9);
+        //new Npc(255,610,"kitsune",kitsune,22,49,32,15);
     }
 
     std::fstream file;

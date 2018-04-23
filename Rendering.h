@@ -23,6 +23,7 @@ void limit_fps();
 
 void render_init();
 SDL_Texture* load_image(std::string s);
+void show_screen(std::string tex);
 void render_ui(Player* player);
 void load_new_bg();
 void render_bg();

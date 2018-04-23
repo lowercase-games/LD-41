@@ -24,7 +24,7 @@ Npc::~Npc()
 void Npc::update()
 {
     Wall::update();
-    if (type == kasaobake & progress==0)
+    if (type == kasaobake && progress==0)
     {
         animate(10);
         if (!cur_anim_frame && !cur_anim_time && (pos[0] < 200 || pos[0] > 300)) flipped = !flipped;
@@ -99,7 +99,7 @@ bool Npc::interact(Object* interacter)
 
         bool was_isa_quest = collected_items::kill_ysa_quest_token;
 
-        VN_from_file(name, special);
+        VN_from_file(type==kasaobake?"Kasaobake":name, special);
 
         if (!(affection[name[0]]%100) && affection[name[0]]) //ending was triggered
         {
@@ -119,10 +119,24 @@ bool Npc::interact(Object* interacter)
                 to_delete.push_back(this);
             }
         }
-        else if ((type == leeta && progress == 0) || (type == kasaobake && progress == 0 && collected_items::kasaobake_quest_token))
+        else if ((type == leeta && progress == 0))
         {
             progress++;
             load_cultists(interacter);
+            if (type == kasaobake) change_animation("kasaobake");
+        }
+        else if (type == kasaobake && progress == 0)
+        {
+            if (collected_items::kasaobake_quest_token)
+            {
+                progress++;
+                load_cultists(interacter);
+                change_animation("kasaobake");
+            }
+            else if (collected_items::kitsune_token)
+            {
+                new Npc(255,610,"kitsune",kitsune,22,49,32,15);
+            }
         }
         else if (was_isa_quest != collected_items::kill_ysa_quest_token)
         {

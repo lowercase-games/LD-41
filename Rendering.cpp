@@ -6,6 +6,7 @@
 #include "Font.h"
 #include "Item.h"
 #include "Level.h"
+#include "Dialog.h"
 
 SDL_Window* renderwindow;
 SDL_Renderer* renderer;
@@ -70,6 +71,31 @@ SDL_Texture* load_image(std::string s)
 SDL_Texture* white_texture(SDL_Texture* tex)
 {
     return white_textures[tex];
+}
+
+void show_screen(std::string tex)
+{
+    SDL_Texture *bg = load_image(tex);
+
+    SDL_Event e;
+	while (!breakk)
+    {
+        while(SDL_PollEvent(&e))
+        {
+			if (e.type == SDL_QUIT) breakk = true;
+
+			else if (e.type == SDL_KEYDOWN)
+			{
+			    if (e.key.keysym.sym == SDLK_ESCAPE) menu();
+			    else return;
+			}
+        }
+
+        SDL_RenderCopy(renderer,bg,nullptr,nullptr);
+
+        SDL_RenderPresent(renderer);
+        limit_fps();
+    }
 }
 
 void draw_pie(int x, int cur, int max, std::string key, std::string tex)
