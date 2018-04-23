@@ -40,22 +40,66 @@ bool Npc::interact(Object* interacter)
             }
             else return false; //there's nothing else to say
         }
+        else if (type == ysa)
+        {
+            if (progress == 0) progress++;
+            else if (progress == 1)
+            {
+                if (collected_items::tentacle) special = "killed_cassy";
+                else special = "kill_cassy_quest";
+            }
+        }
+        else if (type == cassy)
+        {
+            if (progress == 0) progress++;
+            else if (progress == 1)
+            {
+                if (collected_items::kill_isa_quest_token)
+                {
+                    if (collected_items::artifact && enemies.empty())
+                    {
+                        if (collected_items::deep_one_flesh) special = "killed_ysa";
+                        else if (collected_items::kill_cassy_quest_token) special = "did_stuff_ysa";
+                        else special = "did_stuff";
+                    }
+                    else
+                    {
+                        if (collected_items::kill_cassy_quest_token) special = "did_nothing_ysa";
+                        else special = "did_nothing";
+                    }
+                }
+                else special = "no_quest";
+            }
+        }
+
+        bool was_isa_quest = collected_items::kill_isa_quest_token;
 
         VN_from_file(name, special);
 
         if (!(affection[name[0]]%100) && affection[name[0]]) //ending was triggered
         {
-            std::cout << "!!!";
             progress = 100;
-            if (type == leeta)
+            if (type == leeta && affection[name[0]]==negative_end)
             {
                 change_animation("leeta_dead");
+            }
+            else if (type == leeta && affection[name[0]]==dead_end)
+            {
+                collected_items::deep_one_flesh = true;
+            }
+            else if (type == cassy && affection[name[0]]==dead_end)
+            {
+                collected_items::tentacle = true;
             }
         }
         else if (type == leeta && progress == 0)
         {
-            std::cout << "???";
             progress++;
+            load_cultists(interacter);
+        }
+        else if (was_isa_quest = collected_items::kill_isa_quest_token)
+        {
+            new Npc(1565,80,"ysa",ysa,22,42,24,21);
             load_cultists(interacter);
         }
 

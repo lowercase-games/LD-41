@@ -1,0 +1,42 @@
+[surprise]Y:Aaaaaaah!
+[normal]Oh, it's just you...
+Do you always sneak up on unsuspecting monsters like this?
+U:Sorry.
+I didn't mean to scare you.
+Y:Soo - how is the 'disposing' coming along?
+U:Uhmmm...
+[2 choices]
+...I haven't done it yet.
+{
+	Y:I guess that's fine too.
+	You really shouldn't worry about me.
+	U:I will...
+	[2 choices]
+	...definitely kill it, just not yet.
+	{
+	Y:Shouldn't you be going then?
+	U:I'll be on my way.
+	Y:Please be gentle while killing it! 
+	I'd hate being the reason for even more pain...
+	U:Will do.
+	[break]
+	}
+	...not kill it.
+	{
+	Y:Oh. 
+	Okay. 
+	I guess I shouldn't be surprised that you didn't follow through with it.
+	It is a monster's life after all.
+	U:I'm really sorry.
+	I just couldn't bring myself to do it.
+	Y:Don't sweat it.
+	That would be just horrible for your fur.
+	U:Eeeh...sure.
+	[abort kill cassy quest]
+	[end]
+	}
+}
+...I think I'd rather kill you. You'll make a great sacrifice.
+{
+	[kill]
+}

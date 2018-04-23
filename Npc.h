@@ -9,7 +9,7 @@ extern std::deque<Npc*> npcs;
 
 enum npc_type
 {
-    leeta, cassy, ysa
+    leeta, cassy, ysa, kasaobake, kitsune
 };
 
 class Npc : public Wall

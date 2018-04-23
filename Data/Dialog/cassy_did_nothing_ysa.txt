@@ -1,0 +1,16 @@
+C:Why am I still bound? [sad]
+Where is the artefact?
+[2 choices]
+I just wanted to check on you.
+{
+	C:Oh, hihi... [blush]
+	Thank you.
+	T:No worries, they will be dead soon.
+	C:And don't forget about the stinky fish. [happy]
+	[break]
+}
+I met the 'fish' you talked about earlier.
+I will safe her from you! Die!
+{
+	[kill]
+}

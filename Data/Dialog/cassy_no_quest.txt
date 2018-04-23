@@ -1,0 +1,70 @@
+C:Hey Tark.
+Changed your mind?
+T:
+[2 choices]
+I did. Let's kick some ass!
+{
+	C:Yay! I'm so happy you hanged your mind. [happy]
+	And AH!
+	I completely forgot to mention.
+	There is this deep-one lurking around here. [normal]
+	I can smell her fishy breath from somewhere around here.
+	I'd love to eat something, I'm literally starving. [happy]
+	Awoooo~ You hear that sound?
+	That's my empty stomach...
+	I'm so weak. [sad]
+	T:(I'm pretty sure that wasn't her stomach.)
+	C:I really hate those fish-peoples guts. [normal]
+	But the rest of them is quite delicious.
+	Could you do this for me?
+	It would really make me super happy! [happy]
+	T:
+	[3 choices]
+	Uhm... I'll think about it. Let me kill the cultists first.
+	{
+		C:Yay!
+		Thank you.
+		Tell me if you are done.
+		And when the grounds are soaked in sanguine reds,
+		The Great-One shall return to her realm,
+		A kind Manticore shall be blessed with the gift of the stars.
+		T:Poetic.
+		C:Thank you Tarkus.
+		*Starts Quests (killandfetch and Ysa)*
+	}
+	I will set you free. But I won't kill her.
+	{
+		C:Like in maybe not? [normal]
+		T:More like in absolutely not.
+		C:O-okay. [sad]
+		T:Like I said, I will take on the cultists.
+		C:Take on meeeeeee! [happy]
+		Take me ooooooon!
+		I'll be gone!
+		I a day or twooooo!
+		T:...
+		(I expected her to get mad)
+		[trigger kill ysa quest]
+	}
+	Sure. Let the bodies hit the floor.
+	{
+		C:Yay, you are the best. [blush]
+		Tell me if you are done. [happy]
+		And when the grounds are soaked in sanguine reds,
+		The Great-One shall return to her realm,
+		A kind Manticore shall be blessed with the gift of the stars.
+		T:Poetic.
+		C:Thank you Tarkus.
+		[trigger kill ysa quest]
+	}
+}
+I absolutely don't want to do it.
+{
+	C:Fine! [angry]
+	You... you Gnoph-Keh!
+	No, even Gnoph-Kehs are less stupid than you!
+	T:No you didn't...
+	C:I-I'm sorry. [sad]
+	T:(I have enough of this one.)
+	[end quest]
+}

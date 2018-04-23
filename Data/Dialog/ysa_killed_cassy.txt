@@ -1,0 +1,19 @@
+[surprise]Y:Aaaaaaah!
+[normal]Oh, it's just you...
+Do you always sneak up on unsuspecting monsters like this?
+U:Sorry.
+I didn't mean to scare you.
+You don't have to be afraid anymore.
+The tentacle thing is no more.
+[surprise]Y:Really? You actually followed through with it?
+U:Of course I did. I'm Tarkus the manticore.
+Y:Great!!!
+[normal]It's just...
+U:What is it?
+Y:I miss my home terribly.
+Everything here is so ...undeep.
+Wetness is key, you do realize that?
+But how can water be real if my fins aren't real?
+U:(W-what? I'm not sure I'm following...or...could it be?)
+[+4]
+[end]

@@ -211,7 +211,7 @@ SDL_Texture* make_dialog_bg()
 }
 
 std::stack<int> return_positions;
-void VN_from_file(std::string filename, std::string special)
+void VN_from_file(std::string filename, std::string special) //TODO: [trigger kill cassy/ysa quest] [abort kill cassy quest] [end quest] friend-end
 {
     if (!affection.count(filename[0])) affection[filename[0]] = 0;
 
@@ -219,6 +219,8 @@ void VN_from_file(std::string filename, std::string special)
 
     std::string filename_lower = filename;
     std::transform(filename_lower.begin(), filename_lower.end(), filename_lower.begin(), ::tolower);
+
+    if (filename=="Kasaobake") filename = "Kasa-Obake (mysterious)";
 
     SDL_RenderSetLogicalSize(renderer, window[0]*scale, window[1]*scale);
     SDL_Texture* bg = make_dialog_bg();
@@ -231,7 +233,7 @@ void VN_from_file(std::string filename, std::string special)
     while (!file.eof())
     {
         getline(file,line);
-        //std::cout << line << "\n";
+        std::cout << line << "\n";
 
         //skip to the end of the choices
         if (line[0] == '}')
@@ -292,7 +294,9 @@ void VN_from_file(std::string filename, std::string special)
                     affection[filename[0]] = num;
                 }
             }
+            //End dialog
             else if (command == "break") to_return=true;
+            //Trigger ending based on affection points
             else if (command == "end")
             {
                 char c = filename[0];
@@ -314,6 +318,12 @@ void VN_from_file(std::string filename, std::string special)
                 }
 
                 return VN_from_file(filename,end_type);
+            }
+            //Kill the character you are talking to
+            else if (command == "kill")
+            {
+                affection[filename[0]] = dead_end;
+                to_return=true;
             }
             //command is just a change of emotion
             else emotion = command;

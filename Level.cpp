@@ -9,7 +9,7 @@
 #include "Item.h"
 #include "Hole.h"
 
-int level=1;
+int level=2;
 bool load_next_level=false;
 
 Player* load_level()
@@ -28,6 +28,16 @@ Player* load_level()
     else if (level == 2)
     {
         player = new Player(35,95);
+        new Hole(1800,95, player);
+        new Npc(755,810,"cassy",cassy,18,41,27,22);
+        new Item(1620,684,"artifact",&collected_items::artifact, player);
+        //new Npc(1565,80,"ysa",ysa,22,42,24,21);
+    }
+    else
+    {
+        player = new Player(1800,95);
+        new Hole(943,94, player);
+        new Npc(755,810,"kasaobake",kasaobake);
     }
 
     std::fstream file;
@@ -46,7 +56,7 @@ Player* load_level()
     new Wall(0,0,1920,64);
     new Wall(-64,0,64,1144);
     new Wall(0,1080+64,1920,128);
-    new Wall(1920,0,64,1080);
+    new Wall(1920,0,64,1144);
 
     return player;
 }

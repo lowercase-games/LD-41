@@ -4,6 +4,7 @@
 #include <SDL2_gfxPrimitives.h>
 #include <map>
 #include "Font.h"
+#include "Item.h"
 
 SDL_Window* renderwindow;
 SDL_Renderer* renderer;
@@ -97,6 +98,44 @@ void render_ui(Player* player)
     draw_pie(window[0]-120,player->claw_cooldown,player->max_claw_cooldown,"J","claw");
     draw_pie(window[0]-80,player->sting_cooldown,player->max_sting_cooldown,"K","sting");
     draw_pie(window[0]-40,player->dash_cooldown,player->max_dash_cooldown,"L","dash");
+
+    {
+        using namespace collected_items;
+        SDL_Rect r = {window[0]-135,window[1]-30,1,1};
+        SDL_Texture* tex;
+        if (lamp)
+        {
+            tex = load_image("lamp");
+            SDL_QueryTexture(tex,nullptr,nullptr,&r.w, &r.h);
+            r.x -= r.w+5;
+            r.y = window[1]-30-r.h/2;
+            SDL_RenderCopy(renderer,tex,nullptr,&r);
+        }
+        if (tentacle)
+        {
+            tex = load_image("tentacle");
+            SDL_QueryTexture(tex,nullptr,nullptr,&r.w, &r.h);
+            r.x -= r.w+5;
+            r.y = window[1]-30-r.h/2;
+            SDL_RenderCopy(renderer,tex,nullptr,&r);
+        }
+        if (deep_one_flesh)
+        {
+            tex = load_image("deep_one_flesh");
+            SDL_QueryTexture(tex,nullptr,nullptr,&r.w, &r.h);
+            r.x -= r.w+5;
+            r.y = window[1]-30-r.h/2;
+            SDL_RenderCopy(renderer,tex,nullptr,&r);
+        }
+        if (artifact)
+        {
+            tex = load_image("artifact");
+            SDL_QueryTexture(tex,nullptr,nullptr,&r.w, &r.h);
+            r.x -= r.w+5;
+            r.y = window[1]-30-r.h/2;
+            SDL_RenderCopy(renderer,tex,nullptr,&r);
+        }
+    }
 
     SDL_SetRenderDrawColor(renderer,255,0,0,255);
     SDL_Rect r = {13,31,181*player->hp / player->max_hp,14};
