@@ -22,11 +22,11 @@ void Wall::update()
             {
                 if (!o->move_back())
                 {
-                    if (o->pos[0]!=px || o->pos[1]!=py) o->move(o->pos[0]-px, o->pos[1]-py);
-                    else
-                    {
-                        while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE) o->move(0,1);
-                    }
+                    while ((SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE) && (o->pos[0]!=px || o->pos[1]!=py))
+                        o->move(o->pos[0]-px, o->pos[1]-py);
+
+                    while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE)
+                        o->move(0,1);
                 }
             }
 

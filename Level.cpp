@@ -25,6 +25,10 @@ Player* load_level()
         new Item(1207,900,"lamp",&collected_items::lamp, player);
         new Hole(35,95, player);
     }
+    else if (level == 2)
+    {
+        player = new Player(35,95);
+    }
 
     std::fstream file;
     file.open((std::string("Data")+PATH_SEPARATOR+"Levels"+PATH_SEPARATOR+"level"+std::to_string(level)+".txt"));

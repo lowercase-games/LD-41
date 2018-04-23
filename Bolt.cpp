@@ -1,6 +1,6 @@
 #include "Bolt.h"
 
-Bolt::Bolt(int x, int y, float sx, float sy, Player* attacking) : Object(x,y,"Bolt")
+Bolt::Bolt(int x, int y, float sx, float sy, Player* attacking) : Object(x,y,"bolt")
 {
     dead = false;
 
