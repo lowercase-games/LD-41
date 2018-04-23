@@ -3,7 +3,7 @@
 namespace collected_items
 {
     bool lamp=false, tentacle=false, deep_one_flesh=false, artifact=false;
-    bool kill_cassy_quest_token=false, kill_ysa_quest_token=false;
+    bool kill_cassy_quest_token=false, kill_ysa_quest_token=false, kasaobake_quest_token=false, kitsune_token=false;
 }
 
 Item::Item(int x, int y, std::string s, bool* trigger, Object* collector) : Object(x,y,s)

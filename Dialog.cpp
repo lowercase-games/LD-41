@@ -200,7 +200,7 @@ SDL_Texture* make_dialog_bg()
 {
     SDL_Texture* bg = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,window[0],window[1]);
     SDL_SetRenderTarget(renderer,bg);
-    render_bg(load_image("bg"+std::to_string(level)));
+    render_bg();
     for (Object* o: objects_render) o->render();
 
     SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
@@ -213,7 +213,7 @@ SDL_Texture* make_dialog_bg()
 }
 
 std::stack<int> return_positions;
-void VN_from_file(std::string filename, std::string special) //friend-end
+void VN_from_file(std::string filename, std::string special) //TODO: [spawn kitsune] friend-end
 {
     if (!affection.count(filename[0])) affection[filename[0]] = 0;
 
@@ -221,8 +221,6 @@ void VN_from_file(std::string filename, std::string special) //friend-end
 
     std::string filename_lower = filename;
     std::transform(filename_lower.begin(), filename_lower.end(), filename_lower.begin(), ::tolower);
-
-    if (filename=="Kasaobake") filename = "Kasa-Obake (mysterious)";
 
     SDL_RenderSetLogicalSize(renderer, window[0]*scale, window[1]*scale);
     SDL_Texture* bg = make_dialog_bg();
@@ -331,6 +329,8 @@ void VN_from_file(std::string filename, std::string special) //friend-end
             else if (command == "trigger kill cassy quest") collected_items::kill_cassy_quest_token = true;
             else if (command == "abort kill cassy quest") collected_items::kill_cassy_quest_token = false;
             else if (command == "trigger kill ysa quest") collected_items::kill_ysa_quest_token = true;
+            else if (command == "trigger kasaobake quest") collected_items::kasaobake_quest_token = true;
+            else if (command == "spawn kitsune") collected_items::kitsune_token = true;
             else if (command == "end quest")
             {
                 affection[filename[0]] = negative_end;
@@ -352,7 +352,7 @@ void VN_from_file(std::string filename, std::string special) //friend-end
             }
             else
             {
-                talking = filename;
+                talking = (filename=="Kasaobake")?"Kasa-Obake (mysterious)":filename;
                 movement = true;
             }
             line.erase(0,2);

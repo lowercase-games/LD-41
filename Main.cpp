@@ -64,8 +64,6 @@ void load_options()
         else if (splitted[0] == "vsync") vsync = std::stoi(splitted[1]);
         else if (splitted[0] == "instant_text") instant_text = std::stoi(splitted[1]);
         else if (splitted[0] == "easy_mode") easy_mode = std::stoi(splitted[1]);
-        //else if (splitted[0] == "screen_shake") screen_shake_enabled = std::stoi(splitted[1]);
-        //else if (splitted[0] == "hard_mode") hardmode = std::stoi(splitted[1]);
         //else if (splitted[0] == "zoom") zoom = std::stoi(splitted[1]);
         //else if (splitted[0] == "sfx_volume") sfx_volume = std::stoi(splitted[1]);
         //else if (splitted[0] == "music_volume") music_volume = std::stoi(splitted[1]);
@@ -83,10 +81,6 @@ int main(int argc, char* args[])
 
     camera[0] = player->pos[0]-window[0]/2;
     camera[1] = player->pos[1]-window[1]/2;
-
-    SDL_Texture* bg = load_image("bg"+std::to_string(level));
-    int bg_x, bg_y;
-    SDL_QueryTexture(bg, nullptr, nullptr, &bg_x, &bg_y);
 
     //SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
     SDL_Event e;
@@ -127,7 +121,7 @@ int main(int argc, char* args[])
         move_camera((Object*) player);
 
         //Rendering
-        render_bg(bg, bg_x, bg_y);
+        render_bg();
 
         std::stable_sort(objects_render.begin(), objects_render.end(), by_y);
         for (Object* o: objects_render) o->render();

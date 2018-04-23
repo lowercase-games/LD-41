@@ -24,7 +24,8 @@ void limit_fps();
 void render_init();
 SDL_Texture* load_image(std::string s);
 void render_ui(Player* player);
-void render_bg(SDL_Texture* bg, int bg_x=-1, int bg_y=-1);
+void load_new_bg();
+void render_bg();
 
 SDL_Texture* white_texture(SDL_Texture* tex);
 

@@ -48,6 +48,7 @@ bool Npc::interact(Object* interacter)
                 if (collected_items::tentacle) special = "killed_cassy";
                 else special = "kill_cassy_quest";
             }
+            else return false; //there's nothing else to say
         }
         else if (type == cassy)
         {
@@ -70,6 +71,17 @@ bool Npc::interact(Object* interacter)
                 }
                 else special = "no_quest";
             }
+            else return false; //there's nothing else to say
+        }
+        else if (type == kasaobake)
+        {
+            if (progress == 0) {}
+            else if (progress == 1)
+            {
+                if (enemies.empty()) special = "done";
+                else special = "not_done";
+            }
+            else return false; //there's nothing else to say
         }
 
         bool was_isa_quest = collected_items::kill_ysa_quest_token;
@@ -83,16 +95,18 @@ bool Npc::interact(Object* interacter)
             {
                 change_animation("leeta_dead");
             }
-            else if (type == leeta && affection[name[0]]==dead_end)
+            else if (type == ysa && affection[name[0]]==dead_end)
             {
                 collected_items::deep_one_flesh = true;
+                to_delete.push_back(this);
             }
             else if (type == cassy && affection[name[0]]==dead_end)
             {
                 collected_items::tentacle = true;
+                to_delete.push_back(this);
             }
         }
-        else if (type == leeta && progress == 0)
+        else if ((type == leeta && progress == 0) || (type == kasaobake && progress == 0 && collected_items::kasaobake_quest_token))
         {
             progress++;
             load_cultists(interacter);

@@ -35,7 +35,7 @@ Meow!
 }
 Hi there!
 {
-	C:Wah?!	[normal]
+	C:Wah?! [normal]
 	The cute kitten has spoken!
 }
 T:(She still thinks I'm a cat, huh?) [normal]
@@ -52,7 +52,7 @@ T:I don't know if clutz is the right w-
 C:I-I'm! [normal]
 I'm Ctha'ghot, the lurking terror.
 Daughter of the Cosmos!
-But my freinds call me Cassy. [happy]
+But my friends call me Cassy. [happy]
 Ehehe~
 T:
 [3 choices]
@@ -199,7 +199,7 @@ I can help you! Is there anything you would like me to do about it?
 	T:(What was I thinking?
 	No, honestly... What did I expect?
 	Time to rethink life.)
-	There are none around here, sorry. Just wanted to hear your oppinion.
+	There are none around here, sorry. Just wanted to hear your opinion.
 	C: Aww... Getting my hopes up like that. [normal]
 	}
 	T:Okay, sorry about that. [normal]
@@ -247,7 +247,7 @@ I can help you! Is there anything you would like me to do about it?
 		C:Take on meeeeeee! [happy]
 		Take me ooooooon!
 		I'll be gone!
-		I a day or twooooo!
+		In a day or twooooo!
 		T:...
 		(I expected her to get mad)
 		[trigger kill ysa quest]

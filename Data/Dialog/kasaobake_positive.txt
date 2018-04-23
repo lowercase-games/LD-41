@@ -1,0 +1,58 @@
+K:You really impressed me today, young Tarkus. [happy]
+T:I'm really not that young. 
+K:Well compared to me you are. [normal]
+T:How o-
+K:ANYWAY [angry]
+You are way more lovely than those brutal men. [blush]
+T:Thank you.
+K:I think your journey has come to an end then.
+Unless... You have something to tell me... [blush]
+T:
+[2 choices]
+Hit and quit? (meaning I like her c:)
+{
+	K:Smash and dash? [blush]
+	T:Wam bam thank you ma'am?
+	K:Ejaculate and evacuate?
+	T:(Dear oh dear, she ain't mincing words.)
+	Pounce and bounce?
+	K:Pump and dump?
+	T:Nail it and bail it?
+	K:Shoot the jizz then out you is?
+	T:Hump it then dump it?
+	K:Tap that ass then hit the gas?
+	T:Leave it in the dust after getting that bust?
+	K:Tag it and bag it?
+	(Several lewd exchanges later...)
+	T:I think I'm out of the good stuff.
+	K:That's what he said. [happy]
+	...
+	Are you sure you are okay with an older lady like me?
+	T:Stop saying you are old. I don't care.
+	K:You are the most charming Lion I have ever met. [blush]
+	I would almost suggest you should stay...
+	But I bet you want to finish your adventure.
+	T:...
+	K:Your time has come. Whether you have the audience with my Liege or not. [happy]
+	Goodbye Tarkus...
+	Make sure to come back for me. [blush]
+}
+Let's become friends.
+{
+	K:Friends, huh? [angry]
+	Well sure. [normal]
+	Though I can't say that I didn't get my hopes up for a bit. [sad]
+	T:(Activate dense protagonist mode.)
+	Cool! I'm happy we are friends now.
+	K:If you want something else from me, call 4419 5422 91 [blush]
+	And type friendship+.
+	T:I.. Uh...?
+	... I mean, yes Ma'am.
+	K:Good boy! [happy]
+	Now go!
+	Your adventure is almost at an end.
+	Make the best of it.
+	And don't forget to talk to...
+	Well you know. Hopefully.
+	Goodbye Tarkus the Manticore.
+}

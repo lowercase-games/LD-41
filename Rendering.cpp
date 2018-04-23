@@ -5,6 +5,7 @@
 #include <map>
 #include "Font.h"
 #include "Item.h"
+#include "Level.h"
 
 SDL_Window* renderwindow;
 SDL_Renderer* renderer;
@@ -81,7 +82,16 @@ void draw_pie(int x, int cur, int max, std::string key, std::string tex)
     SDL_RenderCopy(renderer,load_image(tex),nullptr,&r);
 }
 
-void render_bg(SDL_Texture* bg, int bg_x, int bg_y)
+SDL_Texture* bg;
+int bg_x, bg_y;
+
+void load_new_bg()
+{
+    bg = load_image("bg"+std::to_string(level));
+    SDL_QueryTexture(bg, nullptr, nullptr, &bg_x, &bg_y);
+}
+
+void render_bg()
 {
     if (bg_x == -1) SDL_QueryTexture(bg, nullptr, nullptr, &bg_x, &bg_y);
 
@@ -137,7 +147,7 @@ void render_ui(Player* player)
         }
     }
 
-    SDL_SetRenderDrawColor(renderer,255,0,0,255);
+    SDL_SetRenderDrawColor(renderer,140,0,0,255);
     SDL_Rect r = {13,31,181*player->hp / player->max_hp,14};
     SDL_RenderFillRect(renderer,&r);
 
