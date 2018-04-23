@@ -12,10 +12,10 @@ extern bool easy_mode;
 
 class Player: public Object
 {
+public:
     float accurate_pos[2], speed[2];
     bool facing_up;
     Animations animation;
-public:
     int dash_cooldown, claw_cooldown, sting_cooldown;
     const int max_dash_cooldown=60, max_claw_cooldown=40, max_sting_cooldown=200;
 

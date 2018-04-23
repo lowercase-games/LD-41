@@ -47,8 +47,8 @@ Player* Savestate::load()
     Player* player = load_level();
     load_cultists(player,false);
 
-    player->pos[0] = player_pos[0];
-    player->pos[1] = player_pos[1];
+    player->pos[0] = player->accurate_pos[0] = player->last_pos[0] = player_pos[0];
+    player->pos[1] = player->accurate_pos[1] = player->last_pos[1] = player_pos[1];
 
     for (Npc* n: npcs)
     {

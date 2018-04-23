@@ -245,7 +245,7 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
         {
             int u = line.find(']',i);
             std::string command = line.substr(i+1,u-i-1);
-            std::cout << command;
+            //std::cout << command;
 
             //commands with numbers
             if (isdigit(command[0]) || command[0] == '-' || command[0] == '+')
@@ -268,7 +268,6 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
                             if (line[0] != '{')choices[a] += (choices[a].empty()?"":"\n   ")+line;
                         }
                         choice_targets.push_back(file_position);
-                        std::cout << file_position<<";";
 
                         int opening_braces=1;
                         while (opening_braces)
@@ -288,7 +287,8 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
                 //A change in affection-points
                 else if (command.empty())
                 {
-                    affection[filename[0]] = num;
+                    affection[filename[0]] += num;
+                    std::cout << affection[filename[0]] << " " << num << "\n";
                 }
             }
             //End dialog
@@ -313,6 +313,8 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
                     end_type = "neutral";
                     affection[c] = neutral_end;
                 }
+
+                std::cout << affection[c] << " " << end_type << "\n";
 
                 return VN_from_file(filename,end_type);
             }
