@@ -6,8 +6,7 @@
 
 Enemy::Enemy(int x, int y, Object* focus, bool xbow) : Object(x,y,"cult_walk_"+std::to_string(random(1,5)),16,3,30,54,4)
 {
-    time_till_move = 0;
-    attack_cooldown = 0;
+    time_till_move = attack_cooldown = 0;
     focus_on = focus;
 
     wallables.push_back(this);

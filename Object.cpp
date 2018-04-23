@@ -11,6 +11,8 @@ int sign(int x)
 
 Object::Object(int x, int y, std::string s, int hitx, int hity, int hitw, int hith, int animation_frames)
 {
+    in_bg = false;
+
     hp = max_hp = 5;
     rotation = 0;
     iframes = 0;

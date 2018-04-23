@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <SDL.h>
 
 enum Ending
 {
@@ -14,6 +15,8 @@ extern std::map<char, int> affection;
 void random_init();
 int random(int x, int y);
 void menu();
+void dialog(std::string text, std::string image, SDL_Texture* bg);
+SDL_Texture* make_dialog_bg();
 void VN_from_file(std::string filename, std::string special="");
 
 #endif // _DIALOG

@@ -55,7 +55,8 @@ void Weapon::update()
                 {
                     int dx = follow->focus_on->pos[0]-pos[0], dy = follow->focus_on->pos[1]-pos[1];
                     int d = std::sqrt(dx*dx+dy*dy);
-                    new Bolt(pos[0]+size[0]/2,pos[1]+size[1]/2,7*dx/d,7*dy/d,(Player*) follow->focus_on);
+                    if (d) new Bolt(pos[0]+size[0]/2,pos[1]+size[1]/2,7*dx/d,7*dy/d,(Player*) follow->focus_on);
+                    else new Bolt(pos[0]+size[0]/2,pos[1]+size[1]/2,7,0,(Player*) follow->focus_on);
                 }
             }
         }

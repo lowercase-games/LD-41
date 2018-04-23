@@ -8,6 +8,7 @@
 #include "random"
 #include "Rendering.h"
 #include "Font.h"
+#include "Level.h"
 
 std::map<char, int> affection;
 
@@ -47,8 +48,6 @@ void dialog(std::string text, std::string image, SDL_Texture* bg)
     SDL_Rect textbox_rect = {100,window[1]*scale-200,window[0]*scale-200, 200-5};
 
     add_newlines(text , textbox_rect.w-10);
-
-    if (text.empty()) me_rect.y = (window[1]*scale-me_h)/2;
 
     int to_move = 60*direction;
 
@@ -195,6 +194,22 @@ void go_to_pos(std::fstream& file, int pos)
     file_position=pos;
 }
 
+SDL_Texture* make_dialog_bg()
+{
+    SDL_Texture* bg = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,window[0],window[1]);
+    SDL_SetRenderTarget(renderer,bg);
+    render_bg(load_image("bg"+std::to_string(level)));
+    for (Object* o: objects_render) o->render();
+
+    SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer,25,25,25,150);
+    SDL_Rect r = {0,0,window[0]*scale, window[1]*scale};
+    SDL_RenderFillRect(renderer,&r);
+    SDL_SetRenderTarget(renderer,nullptr);
+
+    return bg;
+}
+
 std::stack<int> return_positions;
 void VN_from_file(std::string filename, std::string special)
 {
@@ -206,16 +221,7 @@ void VN_from_file(std::string filename, std::string special)
     std::transform(filename_lower.begin(), filename_lower.end(), filename_lower.begin(), ::tolower);
 
     SDL_RenderSetLogicalSize(renderer, window[0]*scale, window[1]*scale);
-    SDL_Texture* bg = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,window[0],window[1]);
-    SDL_SetRenderTarget(renderer,bg);
-    render_bg(load_image("bg"+std::to_string(level)));
-    for (Object* o: objects_render) o->render();
-
-    SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(renderer,25,25,25,150);
-    SDL_Rect r = {0,0,window[0]*scale, window[1]*scale};
-    SDL_RenderFillRect(renderer,&r);
-    SDL_SetRenderTarget(renderer,nullptr);
+    SDL_Texture* bg = make_dialog_bg();
 
     std::fstream file;
     file.open((std::string("Data")+PATH_SEPARATOR+"Dialog"+PATH_SEPARATOR+filename_lower+(special.empty()?"":"_"+special)+".txt"));
@@ -276,7 +282,7 @@ void VN_from_file(std::string filename, std::string special)
                     }
                     return_positions.push(file_position);
 
-                    go_to_pos(file,choice_targets[choice(choices,filename+"_"+emotion,bg)]);
+                    go_to_pos(file,choice_targets[choice(choices,filename_lower+"_"+emotion,bg)]);
                     line = "";
                     break;
                 }

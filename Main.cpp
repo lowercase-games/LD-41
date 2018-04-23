@@ -23,7 +23,6 @@ const int window[2] = {640,360}, scale=3;
 int camera[2] = {0,0};
 
 bool breakk = false;
-int level=1;
 
 void move_camera(Object* to)
 {
@@ -46,7 +45,7 @@ void move_camera(Object* to)
 
 bool by_y(Object* a, Object* b)
 {
-    return a->pos[1] < b->pos[1];
+    return a->in_bg || (!b->in_bg && a->pos[1] < b->pos[1]);
 }
 
 void load_options()
@@ -109,6 +108,13 @@ int main(int argc, char* args[])
 			    else if (e.key.keysym.sym == SDLK_j) player->claw_attack();
 			    else if (e.key.keysym.sym == SDLK_k) player->sting_attack();
 			}
+        }
+
+        if (load_next_level)
+        {
+            load_next_level = false;
+            level++;
+            player = load_level();
         }
 
         //Updating

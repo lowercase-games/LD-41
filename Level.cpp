@@ -7,9 +7,15 @@
 #include "Font.h"
 #include "Npc.h"
 #include "Item.h"
+#include "Hole.h"
+
+int level=1;
+bool load_next_level=false;
 
 Player* load_level()
 {
+    while (!objects_update.empty()) delete objects_update[0];
+
     Player* player;
 
     if (level == 1)
@@ -17,6 +23,7 @@ Player* load_level()
         player = new Player(50,950);
         new Npc(190,500,"leeta",leeta,17,40,31,23);
         new Item(1207,900,"lamp",&collected_items::lamp, player);
+        new Hole(35,95, player);
     }
 
     std::fstream file;

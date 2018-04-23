@@ -30,7 +30,7 @@ Sounds cruel!
 	Stupid fluffy... [angry]
 	Lion...
 	Thing!!!
-	What even are you supposed to be?	[normal]
+	What even are you supposed to be? [normal]
 }
 Sounds incredibly fun!!
 {

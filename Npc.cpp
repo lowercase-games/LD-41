@@ -1,5 +1,6 @@
 #include "Npc.h"
 
+#include <iostream>
 #include "Dialog.h"
 #include "Level.h"
 #include "Item.h"
@@ -27,11 +28,7 @@ bool Npc::interact(Object* interacter)
         std::string special = "";
         if (type == leeta)
         {
-            if (progress == 0)
-            {
-                progress++;
-                load_cultists(interacter);
-            }
+            if (progress == 0) {}
             else if (progress == 1)
             {
                 if (enemies.empty())
@@ -48,6 +45,7 @@ bool Npc::interact(Object* interacter)
 
         if (!(affection[name[0]]%100) && affection[name[0]]) //ending was triggered
         {
+            std::cout << "!!!";
             progress = 100;
             if (type == leeta)
             {
@@ -56,6 +54,7 @@ bool Npc::interact(Object* interacter)
         }
         else if (type == leeta && progress == 0)
         {
+            std::cout << "???";
             progress++;
             load_cultists(interacter);
         }
