@@ -8,6 +8,8 @@ enum Animations
     idle,walk,claw,sting_up,sting_down,tbd
 };
 
+extern bool easy_mode;
+
 class Player: public Object
 {
     float accurate_pos[2], speed[2];

@@ -78,7 +78,7 @@ Iä!Iä!Ctha'ghot fhtagn!
 	I'm what?
 	T:
 	[2 choices]
-	You know... and elritch abomination.
+	You know... and eldritch abomination.
 	{	
 		C:A- [sad]
 		Abomination?
