@@ -117,6 +117,18 @@ void end_screen()
         SDL_RenderCopy(renderer,tex,nullptr,&r);
     }
 
+    SDL_Texture* the_end = load_image("end");
+    int endw,endh;
+    SDL_QueryTexture(the_end,nullptr,nullptr,&endw,&endh);
+    SDL_Rect r = {window[0]*scale/2-endw/2,window[1]*scale-270,endw,endh};
+    SDL_RenderCopy(renderer,the_end,nullptr,&r);
+
+    if (affection['L'] == positive_end && affection['C'] == positive_end && affection['Y'] == positive_end && affection['K'] == positive_end)
+    {
+        render_text(window[0]*scale/2,window[1]*scale-50,"But is this really the true end?",255,255,true,true);
+    }
+    else render_text(window[0]*scale/2,window[1]*scale-50,"But you could still romance more monsters",255,255,true,true);
+
     SDL_SetRenderTarget(renderer,nullptr);
 
     show_screen(bg);
