@@ -18,7 +18,11 @@ bool instant_text=false;
 #define option_num 5
 void menu()
 {
-    std::string text[option_num] = {"Fullscreen","Easy Mode","SFX Volume","Music Volume","Exit Game"};
+    int log_w,log_h;
+    SDL_RenderGetLogicalSize(renderer,&log_w,&log_h);
+    SDL_RenderSetLogicalSize(renderer,window[0],window[1]);
+
+    std::string text[option_num] = {"Fullscreen","WaifuMode","SFX Volume","Music Volume","Exit Game"};
     int *value[option_num] = {&fullscreen, &easy_mode, &sfx_volume, &music_volume, nullptr};
     int range_max[option_num] = {1,1,128,128,0};
     int range_min[option_num] = {0,0,0,0,0};
@@ -51,6 +55,7 @@ void menu()
                         player->hp -= 20;
                     }
 
+                    SDL_RenderSetLogicalSize(renderer,log_w,log_h);
 			        return;
 			    }
 			    else if (e.key.keysym.sym == SDLK_e || e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d)

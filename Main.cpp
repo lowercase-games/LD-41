@@ -66,7 +66,7 @@ void load_options()
         if (splitted[0] == "fullscreen") fullscreen = std::stoi(splitted[1]);
         else if (splitted[0] == "vsync") vsync = std::stoi(splitted[1]);
         else if (splitted[0] == "instant_text") instant_text = std::stoi(splitted[1]);
-        else if (splitted[0] == "easy_mode") easy_mode = std::stoi(splitted[1]);
+        else if (splitted[0] == "waifu_mode") easy_mode = std::stoi(splitted[1]);
         //else if (splitted[0] == "zoom") zoom = std::stoi(splitted[1]);
         else if (splitted[0] == "sfx_volume") sfx_volume = std::stoi(splitted[1]);
         else if (splitted[0] == "music_volume") music_volume = std::stoi(splitted[1]);
