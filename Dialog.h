@@ -11,7 +11,7 @@ enum Ending
 };
 
 extern std::map<char, int> affection;
-extern bool instant_text;
+extern int instant_text;
 
 class Player;
 extern Player* player;

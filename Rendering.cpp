@@ -3,6 +3,7 @@
 #include <SDL_image.h>
 #include <SDL2_gfxPrimitives.h>
 #include <map>
+#include <iostream>
 #include "Font.h"
 #include "Item.h"
 #include "Level.h"
@@ -57,6 +58,8 @@ SDL_Texture* load_image(std::string s)
     {
         loaded_textures[s] = IMG_LoadTexture(renderer,(std::string("Data")+PATH_SEPARATOR+"Graphics"+PATH_SEPARATOR+s+".png").c_str());
 
+        SDL_Texture* old_target = SDL_GetRenderTarget(renderer);
+
         int w,h;
         Uint32 format;
         SDL_QueryTexture(loaded_textures[s],&format,nullptr,&w,&h);
@@ -71,7 +74,7 @@ SDL_Texture* load_image(std::string s)
         SDL_Rect r = {0,0,w,h};
         SDL_RenderFillRect(renderer,&r);
 
-        SDL_SetRenderTarget(renderer,nullptr);
+        SDL_SetRenderTarget(renderer,old_target);
         SDL_SetRenderDrawBlendMode(renderer,SDL_BLENDMODE_BLEND);
         SDL_SetTextureBlendMode(white_textures[loaded_textures[s]], SDL_BLENDMODE_BLEND);
     }
@@ -84,8 +87,11 @@ SDL_Texture* white_texture(SDL_Texture* tex)
     return white_textures[tex];
 }
 
+const std::string characters[4] = {"leeta","cassy","ysa","kasaobake"};
 void end_screen()
 {
+    SDL_RenderSetLogicalSize(renderer,window[0]*scale,window[1]*scale);
+
     SDL_Texture* bg = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,window[0]*scale,window[1]*scale);
     SDL_SetRenderTarget(renderer,bg);
 
@@ -95,16 +101,20 @@ void end_screen()
     SDL_Texture* tex;
     std::string emotion;
 
-    const std::string characters[4] = {"leeta","cassy","ysa","kasaobake"};
-
     for (int i=0;i<=3;i++)
     {
         char c = toupper(characters[i][0]);
-        std::string emotion = (affection[c] == positive_end?"happy":(affection[c] == negative_end?"sad":(affection[c] == neutral_end?"normal":"angry")));
+        if (!affection.count(c)) affection[c] = dead_end;
+        std::string emotion = (affection[c] == positive_end?"blush":(affection[c] == negative_end?"sad":(affection[c] == neutral_end?"normal":"angry")));
         tex = load_image(characters[i]+"_"+emotion);
+
+        //std::cout << characters[i]+"_"+emotion << "\n";
+
         int w,h;
         SDL_QueryTexture(tex,nullptr,nullptr,&w,&h);
-        SDL_Rect r = {window[0]*scale*(i+1)/5-w/2,0,w,h};
+        SDL_Rect r = {window[0]*scale*(i+1)/5-w/2,window[1]*scale-h,w,h};
+        if (i==1) r.x -= 140;
+
         SDL_RenderCopy(renderer,tex,nullptr,&r);
     }
 
@@ -130,7 +140,7 @@ void show_screen(SDL_Texture *bg)
 			else if (e.type == SDL_KEYDOWN)
 			{
 			    if (e.key.keysym.sym == SDLK_ESCAPE) menu();
-			    else return;
+			    else if (e.key.keysym.sym == SDLK_e && !e.key.repeat) return;
 			}
         }
 

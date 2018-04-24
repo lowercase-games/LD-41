@@ -4,7 +4,7 @@
 
 int easy_mode = 0;
 
-const float lin_stop = 0.1, const_stop = 0.5, acceleration = 1.5;
+const float lin_stop = 0.1, const_stop = 0.5, acceleration = 1.2;
 const int dash_speed = 20;
 
 Player::Player(int x, int y):Object(x,y,"manticore_idle",2,44,51,19,8)

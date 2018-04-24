@@ -1,8 +1,7 @@
 [surprise]Y:Aaaaaaah! 
 Please don't eat me! I'm not tasty at all!
 [3 choices]
-Oh, don't worry. 
-I never liked fish anyways so you're totally safe from me.
+Oh, don't worry. I never liked fish anyways so you're totally safe from me.
 {
 	[angry]Y:Come on now, you do realize I'm not a fish? 
 	Do I have gills? No I don't.
@@ -18,15 +17,13 @@ I never liked fish anyways so you're totally safe from me.
 	I should probably introduce myself.)
 	[-1]
 }
-No, you don't have to be afraid of me. 
-I would never eat someone as cute as you.
+No, you don't have to be afraid of me. I would never eat someone as cute as you.
 {
 	[love]Y:Uhhh, thank you.
 	Sooo - who are you and what brings you here?
 	[+1]
 }
-Well I won't eat you, 
-but I bet Cassy would be really happy about you as a sacrifice.
+Well I won't eat you, but I bet Cassy would be really happy about you as a sacrifice.
 {
 	[kill]
 }

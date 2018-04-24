@@ -48,7 +48,7 @@ void move_camera(Object* to)
 
 bool by_y(Object* a, Object* b)
 {
-    return a->in_bg || (!b->in_bg && a->pos[1] < b->pos[1]);
+    return a->in_bg || (!b->in_bg && a->pos[1]+a->size[1] < b->pos[1]+b->size[1]);
 }
 
 void load_options()
@@ -109,6 +109,7 @@ int main(int argc, char* args[])
                         if (n->interact(player)) break;
                     }
 			    }
+			    //else if (e.key.keysym.sym == SDLK_r) end_screen();
 			    else if (e.key.keysym.sym == SDLK_l) player->dash();
 			    else if (e.key.keysym.sym == SDLK_j) player->claw_attack();
 			    else if (e.key.keysym.sym == SDLK_k) player->sting_attack();

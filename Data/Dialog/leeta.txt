@@ -6,7 +6,7 @@ L:I tell you, you play one harmless prank on them
 And they are immediately out to put your head on a spike. 
 T:(She is totally ignoring me...) 
 [2 choices] 
-What did you do? 
+What did you do?
 {
 	L:Ah, you know...
 	Just messed with them a bit. 

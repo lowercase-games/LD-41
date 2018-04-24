@@ -13,19 +13,19 @@
 #include "Sound.h"
 
 std::map<char, int> affection;
-bool instant_text=false;
+int instant_text=false;
 
-#define option_num 5
+#define option_num 6
 void menu()
 {
     int log_w,log_h;
     SDL_RenderGetLogicalSize(renderer,&log_w,&log_h);
     SDL_RenderSetLogicalSize(renderer,window[0],window[1]);
 
-    std::string text[option_num] = {"Fullscreen","WaifuMode","SFX Volume","Music Volume","Exit Game"};
-    int *value[option_num] = {&fullscreen, &easy_mode, &sfx_volume, &music_volume, nullptr};
-    int range_max[option_num] = {1,1,128,128,0};
-    int range_min[option_num] = {0,0,0,0,0};
+    std::string text[option_num] = {"Fullscreen","WaifuMode","Instant Text","SFX Volume","Music Volume","Exit Game"};
+    int *value[option_num] = {&fullscreen, &easy_mode, &instant_text, &sfx_volume, &music_volume, nullptr};
+    int range_max[option_num] = {1,1,1,128,128,0};
+    int range_min[option_num] = {0,0,0,0,0,0};
     int pointer = 0;
 
     int w,h;
@@ -93,10 +93,10 @@ void menu()
 
         for (int i=0; i<option_num;i++)
         {
-            render_text(50,50+i*50,text[i]+(value[i]?": "+std::to_string(*value[i]):""),255,255,false,false);
+            render_text(50,30+i*50,text[i]+(value[i]?": "+std::to_string(*value[i]):""),255,255,false,false);
         }
 
-        SDL_Rect r = {65-w,58+pointer*50,w,h};
+        SDL_Rect r = {65-w,38+pointer*50,w,h};
         SDL_RenderCopy(renderer,pointer_tex,nullptr,&r);
 
         SDL_RenderPresent(renderer);
@@ -148,7 +148,7 @@ void dialog(std::string text, std::string image, SDL_Texture* bg)
 			else if (e.type == SDL_KEYDOWN)
 			{
 			    if (e.key.keysym.sym == SDLK_ESCAPE) menu();
-			    else if (!e.key.repeat)
+			    else if (!e.key.repeat && e.key.keysym.sym == SDLK_e)
 			    {
 			        if (progress < text.length()) progress = text.length();
 			        else return;
@@ -233,7 +233,7 @@ int choice(std::deque<std::string> texts, std::string image, SDL_Texture* bg)
 			        cursor = mod(cursor+1,texts.size());
 			        make_text
 			    }
-			    else if (!e.key.repeat) return cursor;
+			    else if (!e.key.repeat && e.key.keysym.sym == SDLK_e) return cursor;
 			}
         }
 
@@ -407,7 +407,7 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
                 }
 
                 //std::cout << affection[c] << " " << end_type << "\n";
-
+                file.close();
                 return VN_from_file(filename,end_type);
             }
             //Kill the character you are talking to

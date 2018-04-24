@@ -1,6 +1,6 @@
 fullscreen=1
 vsync=0
-instant_text=1
+instant_text=0
 
 waifu_mode=0
 
