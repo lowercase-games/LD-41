@@ -1,4 +1,0 @@
-K:You are back? Are my fans dead? [normal]
-T:Yep. I was gentle and ferocious.
-K:Well, good job I guess. [happy]
-[end]

@@ -1,9 +1,0 @@
-fullscreen=1
-vsync=0
-instant_text=1
-
-waifu_mode=0
-
-#changes the volume for sfx/music. can be set to something between 0 and 128
-sfx_volume=64
-music_volume=64
