@@ -20,7 +20,7 @@ class Savestate
     int cur_level;
 
 public:
-    Savestate();
+    Savestate(Player* player);
     void save(Player* player);
     Player* load();
 };

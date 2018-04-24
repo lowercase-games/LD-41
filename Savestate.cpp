@@ -7,7 +7,7 @@
 
 Savestate* save = nullptr;
 
-Savestate::Savestate()
+Savestate::Savestate(Player* player)
 {
     save(player);
 }

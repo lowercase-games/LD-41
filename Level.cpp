@@ -18,27 +18,27 @@ Player* load_level()
 {
     while (!objects_update.empty()) delete objects_update[0];
 
-    Player* player;
+    Player* new_player;
 
     if (level == 1)
     {
-        player = new Player(50,950);
+        new_player = new Player(50,950);
         new Npc(190,500,"leeta",leeta,17,40,31,23);
-        if (!collected_items::lamp) new Item(1207,900,"lamp",&collected_items::lamp, player);
-        new Hole(35,95, player);
+        if (!collected_items::lamp) new Item(1207,900,"lamp",&collected_items::lamp, new_player);
+        new Hole(35,95, new_player);
     }
     else if (level == 2)
     {
-        player = new Player(35,95);
-        new Hole(1800,95, player);
+        new_player = new Player(35,95);
+        new Hole(1800,95, new_player);
         new Npc(755,810,"cassy",cassy,18,41,27,22);
-        if (!collected_items::artifact) new Item(1620,684,"artifact",&collected_items::artifact, player);
+        if (!collected_items::artifact) new Item(1620,684,"artifact",&collected_items::artifact, new_player);
         if (collected_items::kill_ysa_quest_token) new Npc(1565,80,"ysa",ysa,22,42,24,21);
     }
     else
     {
-        player = new Player(1800,95);
-        new Hole(943,94, player);
+        new_player = new Player(1800,95);
+        new Hole(943,94, new_player);
         new Npc(255,810,"kasaobake_jump",kasaobake,29,39,10,25,9);
         if (collected_items::kitsune_token)  new Npc(255,610,"kitsune",kitsune,22,49,32,15);
     }
@@ -67,7 +67,7 @@ Player* load_level()
 
     play_music(load_music("theme_floor"+std::to_string(level)));
 
-    return player;
+    return new_player;
 }
 
 void load_cultists(Object* player, bool save_game)

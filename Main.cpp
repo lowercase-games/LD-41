@@ -73,6 +73,96 @@ void load_options()
     }
 }
 
+#define option_num 6
+void menu()
+{
+    int log_w,log_h;
+    SDL_RenderGetLogicalSize(renderer,&log_w,&log_h);
+    SDL_RenderSetLogicalSize(renderer,window[0],window[1]);
+
+    std::string text[option_num] = {"Fullscreen","WaifuMode","Instant Text","SFX Volume","Music Volume","Exit Game"};
+    int *value[option_num] = {&fullscreen, &easy_mode, &instant_text, &sfx_volume, &music_volume, nullptr};
+    int range_max[option_num] = {1,1,1,128,128,0};
+    int range_min[option_num] = {0,0,0,0,0,0};
+    int pointer = 0;
+
+    int w,h;
+    SDL_Texture* pointer_tex = load_image("pointer");
+    SDL_QueryTexture(pointer_tex,nullptr,nullptr,&w,&h);
+
+
+    SDL_Event e;
+	while (!breakk)
+    {
+        while(SDL_PollEvent(&e))
+        {
+			if (e.type == SDL_QUIT) breakk = true;
+
+			else if (e.type == SDL_KEYDOWN)
+			{
+			    if (e.key.keysym.sym == SDLK_ESCAPE)
+			    {
+			        if (easy_mode && player->max_hp == 10)
+                    {
+                        player->max_hp = 30;
+                        player->hp *= 3;
+                    }
+                    else if (!easy_mode && player->max_hp == 30)
+                    {
+                        player->max_hp = 10;
+                        player->hp /= 3;
+                        if (!player->hp) player->hp = 1;
+                    }
+
+                    SDL_RenderSetLogicalSize(renderer,log_w,log_h);
+			        return;
+			    }
+			    else if (e.key.keysym.sym == SDLK_e || e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d)
+                {
+                    if (value[pointer])
+                    {
+                        if (e.key.keysym.sym == SDLK_a) --(*value[pointer]);
+                        else                            ++(*value[pointer]);;
+
+                        if (*value[pointer] > range_max[pointer]) *value[pointer] = range_min[pointer];
+                        if (*value[pointer] < range_min[pointer]) *value[pointer] = range_max[pointer];
+
+                        render_init_update();
+                        sound_init_update();
+                    }
+                    else if (e.key.keysym.sym == SDLK_e) breakk = true;
+                }
+			    else if (e.key.keysym.sym == SDLK_w)
+                {
+                    pointer--;
+
+                    if (pointer<0) pointer = option_num-1;
+                }
+			    else if (e.key.keysym.sym == SDLK_s)
+                {
+                    pointer++;
+
+                    if (pointer>=option_num) pointer = 0;
+                }
+			}
+        }
+
+        SDL_SetRenderDrawColor(renderer,0,0,0,255);
+        SDL_RenderClear(renderer);
+
+        for (int i=0; i<option_num;i++)
+        {
+            render_text(50,30+i*50,text[i]+(value[i]?": "+std::to_string(*value[i]):""),255,255,false,false);
+        }
+
+        SDL_Rect r = {65-w,38+pointer*50,w,h};
+        SDL_RenderCopy(renderer,pointer_tex,nullptr,&r);
+
+        SDL_RenderPresent(renderer);
+        limit_fps();
+    }
+}
+
 int main(int argc, char* args[])
 {
     random_init();
@@ -86,8 +176,7 @@ int main(int argc, char* args[])
 
     player = load_level();
 
-    save = new Savestate();
-    save->save(player);
+    save = new Savestate(player);
 
     camera[0] = player->pos[0]-window[0]/2;
     camera[1] = player->pos[1]-window[1]/2;
@@ -111,6 +200,7 @@ int main(int argc, char* args[])
                     }
 			    }
 			    //else if (e.key.keysym.sym == SDLK_r) end_screen();
+			    //else if (e.key.keysym.sym == SDLK_r) load_next_level = true;
 			    else if (e.key.keysym.sym == SDLK_l) player->dash();
 			    else if (e.key.keysym.sym == SDLK_j) player->claw_attack();
 			    else if (e.key.keysym.sym == SDLK_k) player->sting_attack();
