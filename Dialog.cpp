@@ -47,12 +47,13 @@ void menu()
 			        if (easy_mode && player->max_hp == 10)
                     {
                         player->max_hp = 30;
-                        player->hp += 20;
+                        player->hp *= 3;
                     }
-                    else if (easy_mode && player->max_hp == 30)
+                    else if (!easy_mode && player->max_hp == 30)
                     {
                         player->max_hp = 10;
-                        player->hp -= 20;
+                        player->hp /= 3;
+                        if (!player->hp) player->hp = 1;
                     }
 
                     SDL_RenderSetLogicalSize(renderer,log_w,log_h);

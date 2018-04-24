@@ -23,10 +23,10 @@ void Wall::update()
                 if (!o->move_back())
                 {
                     while ((SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE) && (o->pos[0]!=px || o->pos[1]!=py))
-                        o->move(o->pos[0]-px, o->pos[1]-py);
+                        o->move(o->pos[0]-px, o->pos[1]-py, true, false);
 
                     while (SDL_HasIntersection(cur_hitbox(),o->cur_hitbox()) == SDL_TRUE)
-                        o->move(0,1);
+                        o->move(0,1, true, false);
                 }
             }
 

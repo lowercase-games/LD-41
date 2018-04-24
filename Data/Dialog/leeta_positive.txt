@@ -34,7 +34,7 @@ I like you too, Leeta.
 	L:May I touch your fur?
 	It looks super soft and fluffy. [happy]
 	T:Sure.
-	L:(So soft...) 		[blush]
+	L:(So soft...) [blush]
 }
 Cool beans. How about we become friends?
 {

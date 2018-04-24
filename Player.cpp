@@ -69,7 +69,7 @@ void Player::update()
     if (in_attack_animation())
     {
         bool attacking = false;
-        SDL_Rect attack_hitbox;
+        SDL_Rect attack_hitbox = {0,0,0,0};
 
         if (animation == claw && (cur_anim_frame==2 || cur_anim_frame==3))
         {

@@ -7,6 +7,11 @@
 
 Savestate* save = nullptr;
 
+Savestate::Savestate()
+{
+    save(player);
+}
+
 void Savestate::save(Player* player)
 {
     lamp = collected_items::lamp;

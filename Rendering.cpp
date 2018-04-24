@@ -99,7 +99,6 @@ void end_screen()
     SDL_RenderClear(renderer);
 
     SDL_Texture* tex;
-    std::string emotion;
 
     for (int i=0;i<=3;i++)
     {

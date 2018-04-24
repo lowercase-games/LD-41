@@ -75,6 +75,7 @@ void load_options()
 
 int main(int argc, char* args[])
 {
+    random_init();
     load_options();
 
     render_init();
