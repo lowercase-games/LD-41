@@ -4,6 +4,7 @@
 #include "Dialog.h"
 #include "Rendering.h"
 #include "Player.h"
+#include "Sound.h"
 
 Hole::Hole(int x, int y, Player* enterer) : Object(x,y,"hole"+std::to_string(level))
 {
@@ -42,7 +43,19 @@ void Hole::update()
                 dialog("(I have no idea where that just came from.)","",make_dialog_bg());
                 SDL_RenderSetLogicalSize(renderer, window[0], window[1]);
             }
-            else load_next_level = true;
+            else
+            {
+                if (level == 3)
+                {
+                    end_screen();
+                    breakk = true;
+                }
+                else
+                {
+                    play_sound(load_sound("next_floor"));
+                    load_next_level = true;
+                }
+            }
         }
     }
     else colliding = false;

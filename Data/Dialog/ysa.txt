@@ -41,12 +41,12 @@ I'm Eg'yshal by the way.
 You probably can't pronounce that correctly so just call me Ysa.
 U:Are you ok now? Should I kill some humans for you?
 Y:Oh no, it's fine. I only imagined it anyway.
-Back home in deep below they were always coming in through holes in the ceiling...
+Back home in Deep Below they were always coming in through holes in the ceiling...
 but since I moved to this forgotten place it's been far quieter. 
 Mostly.
 U:I wonder...
 [3 choices]
-...if you miss deep below.
+...if you miss Deep Below.
 {
 	[sad]Y:Oh yes, terribly.
 	The dry air here is disastrous for my skin. 

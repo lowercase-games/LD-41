@@ -9,6 +9,7 @@
 #include "Item.h"
 #include "Hole.h"
 #include "Savestate.h"
+#include "Sound.h"
 
 int level=1;
 bool load_next_level=false;
@@ -63,6 +64,8 @@ Player* load_level()
     new Wall(1920,0,64,1144);
 
     load_new_bg();
+
+    play_music(load_music("theme_floor"+std::to_string(level)));
 
     return player;
 }

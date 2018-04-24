@@ -10,14 +10,93 @@
 #include "Font.h"
 #include "Level.h"
 #include "Item.h"
+#include "Sound.h"
 
 std::map<char, int> affection;
 bool instant_text=false;
 
+#define option_num 5
 void menu()
 {
-    //TODO
-    breakk = true;
+    std::string text[option_num] = {"Fullscreen","Easy Mode","SFX Volume","Music Volume","Exit Game"};
+    int *value[option_num] = {&fullscreen, &easy_mode, &sfx_volume, &music_volume, nullptr};
+    int range_max[option_num] = {1,1,128,128,0};
+    int range_min[option_num] = {0,0,0,0,0};
+    int pointer = 0;
+
+    int w,h;
+    SDL_Texture* pointer_tex = load_image("pointer");
+    SDL_QueryTexture(pointer_tex,nullptr,nullptr,&w,&h);
+
+
+    SDL_Event e;
+	while (!breakk)
+    {
+        while(SDL_PollEvent(&e))
+        {
+			if (e.type == SDL_QUIT) breakk = true;
+
+			else if (e.type == SDL_KEYDOWN)
+			{
+			    if (e.key.keysym.sym == SDLK_ESCAPE)
+			    {
+			        if (easy_mode && player->max_hp == 10)
+                    {
+                        player->max_hp = 30;
+                        player->hp += 20;
+                    }
+                    else if (easy_mode && player->max_hp == 30)
+                    {
+                        player->max_hp = 10;
+                        player->hp -= 20;
+                    }
+
+			        return;
+			    }
+			    else if (e.key.keysym.sym == SDLK_e || e.key.keysym.sym == SDLK_a || e.key.keysym.sym == SDLK_d)
+                {
+                    if (value[pointer])
+                    {
+                        if (e.key.keysym.sym == SDLK_a) --(*value[pointer]);
+                        else                            ++(*value[pointer]);;
+
+                        if (*value[pointer] > range_max[pointer]) *value[pointer] = range_min[pointer];
+                        if (*value[pointer] < range_min[pointer]) *value[pointer] = range_max[pointer];
+
+                        render_init_update();
+                        sound_init_update();
+                    }
+                    else if (e.key.keysym.sym == SDLK_e) breakk = true;
+                }
+			    else if (e.key.keysym.sym == SDLK_w)
+                {
+                    pointer--;
+
+                    if (pointer<0) pointer = option_num-1;
+                }
+			    else if (e.key.keysym.sym == SDLK_s)
+                {
+                    pointer++;
+
+                    if (pointer>=option_num) pointer = 0;
+                }
+			}
+        }
+
+        SDL_SetRenderDrawColor(renderer,0,0,0,255);
+        SDL_RenderClear(renderer);
+
+        for (int i=0; i<option_num;i++)
+        {
+            render_text(50,50+i*50,text[i]+(value[i]?": "+std::to_string(*value[i]):""),255,255,false,false);
+        }
+
+        SDL_Rect r = {65-w,58+pointer*50,w,h};
+        SDL_RenderCopy(renderer,pointer_tex,nullptr,&r);
+
+        SDL_RenderPresent(renderer);
+        limit_fps();
+    }
 }
 
 std::default_random_engine generator;
@@ -211,6 +290,8 @@ SDL_Texture* make_dialog_bg()
 std::stack<int> return_positions;
 void VN_from_file(std::string filename, std::string special) //TODO: friend-end
 {
+    play_music(load_music("dating"));
+
     if (!affection.count(filename[0])) affection[filename[0]] = 0;
 
     bool to_return = false;
@@ -288,11 +369,17 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
                 else if (command.empty())
                 {
                     affection[filename[0]] += num;
-                    std::cout << affection[filename[0]] << " " << num << "\n";
+                    //std::cout << affection[filename[0]] << " " << num << "\n";
                 }
             }
             //End dialog
             else if (command == "break") to_return=true;
+            //Play sound
+            else if (command.substr(0,5) == "play:")
+            {
+                std::cout << command.substr(5);
+                play_sound(load_sound(command.substr(5)));
+            }
             //Trigger ending based on affection points
             else if (command == "end")
             {
@@ -314,7 +401,7 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
                     affection[c] = neutral_end;
                 }
 
-                std::cout << affection[c] << " " << end_type << "\n";
+                //std::cout << affection[c] << " " << end_type << "\n";
 
                 return VN_from_file(filename,end_type);
             }
@@ -323,6 +410,8 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
             {
                 affection[filename[0]] = dead_end;
                 to_return=true;
+                if (filename[0] == 'C') play_sound(load_sound("death_chthulu"));
+                else if (filename[0] == 'Y') play_sound(load_sound("death_fish"));
             }
             else if (command == "trigger kill cassy quest") collected_items::kill_cassy_quest_token = true;
             else if (command == "abort kill cassy quest") collected_items::kill_cassy_quest_token = false;
@@ -376,12 +465,17 @@ void VN_from_file(std::string filename, std::string special) //TODO: friend-end
 
         if (to_return)
         {
+            file.close();
+
+            play_music(load_music("theme_floor"+std::to_string(level)));
             SDL_RenderSetLogicalSize(renderer, window[0], window[1]);
             return;
         }
     }
 
     file.close();
+
+    play_music(load_music("theme_floor"+std::to_string(level)));
 
     SDL_RenderSetLogicalSize(renderer, window[0], window[1]);
 }

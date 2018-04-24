@@ -13,6 +13,9 @@ enum Ending
 extern std::map<char, int> affection;
 extern bool instant_text;
 
+class Player;
+extern Player* player;
+
 void random_init();
 int random(int x, int y);
 void menu();

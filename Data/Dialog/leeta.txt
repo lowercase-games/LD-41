@@ -1,5 +1,5 @@
 L:[normal]Oh! You are not one of them, are you? 
-T:One of...? 
+T:One of...?
 L:[angry]Those pesky humans. 
 T:Is it that obvious, huh? 
 L:I tell you, you play one harmless prank on them 

@@ -10,7 +10,7 @@ I did. Let's kick some ass!
 	There is this deep-one lurking around here. [normal]
 	I can smell her fishy breath from somewhere around here.
 	I'd love to eat something, I'm literally starving. [happy]
-	Awoooo~ You hear that sound?
+	Awoooo~ You hear that sound? [play:stomach_growl]
 	That's my empty stomach...
 	I'm so weak. [sad]
 	T:(I'm pretty sure that wasn't her stomach.)

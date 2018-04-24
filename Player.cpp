@@ -1,6 +1,8 @@
 #include "Player.h"
 
-bool easy_mode = false;
+#include "Sound.h"
+
+int easy_mode = 0;
 
 const float lin_stop = 0.1, const_stop = 0.5, acceleration = 1.5;
 const int dash_speed = 20;
@@ -191,6 +193,7 @@ void Player::dash()
         else if (keystate[SDL_SCANCODE_D]) speed[0] += dash_speed;
         else if (!moved_y) return;
 
+        play_sound(load_sound("dash"));
         dash_cooldown=max_dash_cooldown;
         iframes = 10;
     }
@@ -205,6 +208,7 @@ void Player::sting_attack()
         if (keystate[SDL_SCANCODE_S]) facing_up = false;
         else if (keystate[SDL_SCANCODE_W]) facing_up = true;
 
+        play_sound(load_sound("attack_sting"));
         sting_cooldown=max_sting_cooldown;
         if (facing_up)
         {
@@ -227,6 +231,8 @@ void Player::claw_attack()
 
         if (keystate[SDL_SCANCODE_A]) flipped = false;
         else if (keystate[SDL_SCANCODE_D]) flipped = true;
+
+        play_sound(load_sound("attack_claw"));
 
         claw_cooldown=max_claw_cooldown;
         animation = claw;

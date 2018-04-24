@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Bolt.h"
+#include "Sound.h"
 
 Weapon::Weapon(Enemy* follows): Object(follows->pos[0],follows->pos[1],follows->crossbow?"cult_xbow":"cult_axe",0,0,0,0,4)
 {
@@ -13,6 +14,9 @@ Weapon::Weapon(Enemy* follows): Object(follows->pos[0],follows->pos[1],follows->
 
 void Weapon::start_attack()
 {
+    if (follow->crossbow) play_sound(load_sound("enemy_bow"));
+    else play_sound(load_sound("enemy_axe"));
+
     change_animation(follow->crossbow?"xbow_fire":"axe_zoosh");
     attacking_for = 360;
 }

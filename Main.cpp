@@ -15,6 +15,7 @@
 #include "Level.h"
 #include "Item.h"
 #include "Savestate.h"
+#include "Sound.h"
 
 #ifndef _STATIC
 void *__gxx_personality_v0;
@@ -22,6 +23,7 @@ void *__gxx_personality_v0;
 
 const int window[2] = {640,360}, scale=3;
 int camera[2] = {0,0};
+Player* player;
 
 bool breakk = false, load_save = false;
 
@@ -66,8 +68,8 @@ void load_options()
         else if (splitted[0] == "instant_text") instant_text = std::stoi(splitted[1]);
         else if (splitted[0] == "easy_mode") easy_mode = std::stoi(splitted[1]);
         //else if (splitted[0] == "zoom") zoom = std::stoi(splitted[1]);
-        //else if (splitted[0] == "sfx_volume") sfx_volume = std::stoi(splitted[1]);
-        //else if (splitted[0] == "music_volume") music_volume = std::stoi(splitted[1]);
+        else if (splitted[0] == "sfx_volume") sfx_volume = std::stoi(splitted[1]);
+        else if (splitted[0] == "music_volume") music_volume = std::stoi(splitted[1]);
     }
 }
 
@@ -77,10 +79,11 @@ int main(int argc, char* args[])
 
     render_init();
     font_init();
+    sound_init();
 
     show_screen("start_screen");
 
-    Player* player = load_level();
+    player = load_level();
 
     save = new Savestate();
     save->save(player);

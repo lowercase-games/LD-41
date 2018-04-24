@@ -1,5 +1,7 @@
 #include "Item.h"
 
+#include "Sound.h"
+
 namespace collected_items
 {
     bool lamp=false, tentacle=false, deep_one_flesh=false, artifact=false;
@@ -17,6 +19,7 @@ void Item::update()
     if (SDL_HasIntersection(cur_hitbox(),get_collected_by->cur_hitbox()))
     {
         *collected = true;
+        play_sound(load_sound("pickup_item"));
         to_delete.push_back(this);
     }
 }

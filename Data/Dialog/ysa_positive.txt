@@ -40,7 +40,7 @@ You could be my girlfriend.
 	If something scares you again, 
 	you just have to cry out again and I'll come as fast as I can.
 }
-Go back to deep below and learn how to fight.
+Go back to Deep Below and learn how to fight.
 {
 	[normal]Y:Do you really think I could do it?
 	U:Definitely! 

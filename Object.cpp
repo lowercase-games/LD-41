@@ -1,6 +1,7 @@
 #include "Object.h"
 
 #include "Rendering.h"
+#include "Sound.h"
 
 std::deque<Object*> objects_update, objects_render, wallables, enemies, to_delete;
 
@@ -66,11 +67,21 @@ void Object::attack()
             if (is_player)
             {
                 load_save = true;
+                //play_sound(load_sound("player_death"));
                 show_screen("death_screen");
             }
-            else to_delete.push_back(this);
+            else
+            {
+                play_sound(load_sound("enemy_death"));
+                to_delete.push_back(this);
+            }
         }
-        else iframes = 16;
+        else
+        {
+            if (is_player) play_sound(load_sound("player_hit"));
+            else play_sound(load_sound("enemy_hit"));
+            iframes = 16;
+        }
     }
 }
 

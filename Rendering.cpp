@@ -11,7 +11,8 @@
 SDL_Window* renderwindow;
 SDL_Renderer* renderer;
 
-bool fullscreen=false, vsync=false;
+bool vsync=false;
+int fullscreen=0;
 
 int last_time;
 float wait;
@@ -36,6 +37,16 @@ void render_init()
 
     //SDL_RenderSetScale(renderer,scale,scale);
     SDL_RenderSetLogicalSize(renderer, window[0], window[1]);
+}
+
+void render_init_update()
+{
+    SDL_SetWindowFullscreen(renderwindow,fullscreen?SDL_WINDOW_FULLSCREEN_DESKTOP:0);
+
+    SDL_DisplayMode current;
+    SDL_GetDesktopDisplayMode(0, &current);
+
+    SDL_SetWindowSize(renderwindow,fullscreen?current.w:window[0]*scale, fullscreen?current.h:window[1]*scale);
 }
 
 std::map<std::string,SDL_Texture*> loaded_textures;
@@ -73,10 +84,42 @@ SDL_Texture* white_texture(SDL_Texture* tex)
     return white_textures[tex];
 }
 
+void end_screen()
+{
+    SDL_Texture* bg = SDL_CreateTexture(renderer,SDL_PIXELFORMAT_RGBA8888,SDL_TEXTUREACCESS_TARGET,window[0]*scale,window[1]*scale);
+    SDL_SetRenderTarget(renderer,bg);
+
+    SDL_SetRenderDrawColor(renderer,25,25,25,255);
+    SDL_RenderClear(renderer);
+
+    SDL_Texture* tex;
+    std::string emotion;
+
+    const std::string characters[4] = {"leeta","cassy","ysa","kasaobake"};
+
+    for (int i=0;i<=3;i++)
+    {
+        char c = toupper(characters[i][0]);
+        std::string emotion = (affection[c] == positive_end?"happy":(affection[c] == negative_end?"sad":(affection[c] == neutral_end?"normal":"angry")));
+        tex = load_image(characters[i]+"_"+emotion);
+        int w,h;
+        SDL_QueryTexture(tex,nullptr,nullptr,&w,&h);
+        SDL_Rect r = {window[0]*scale*(i+1)/5-w/2,0,w,h};
+        SDL_RenderCopy(renderer,tex,nullptr,&r);
+    }
+
+    SDL_SetRenderTarget(renderer,nullptr);
+
+    show_screen(bg);
+}
+
 void show_screen(std::string tex)
 {
-    SDL_Texture *bg = load_image(tex);
+    show_screen(load_image(tex));
+}
 
+void show_screen(SDL_Texture *bg)
+{
     SDL_Event e;
 	while (!breakk)
     {
